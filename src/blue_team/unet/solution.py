@@ -30,10 +30,7 @@ def install():
 
     # Convert the notebook to its colabless form
     subprocess.run(["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", f"{notebook_name}", "-s", "1.1.", "1.2.", "2.", "6.3."], cwd=to)
-    subprocess.run(["ls", get_app_path()])
-    print("Before")
     subprocess.run(["mv", get_app_path().joinpath(f"colabless_{notebook_name}"), get_app_path().joinpath(f"{notebook_name}")])
-    print("Done")
 
     # Remove the cloned DL4MicEverywhere repository
     shutil.rmtree(to)
