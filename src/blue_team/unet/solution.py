@@ -1,12 +1,14 @@
 from album.runner.api import get_args, setup
 import sys
 
-
 def run():
     import subprocess
+    import os
 
     args = get_args()
     jupyter_working_dir = args.jupyter_working_dir
+
+    os.environ["LD_LIBRARY_PATH"] = f"{os.environ['LD_LIBRARY_PATH']}:{os.environ['CONDA_PREFIX']}/lib"
 
     # run jupyter notebopok file in a subprocess
     subprocess.run(["jupyter", "lab", "--port=8888", "--notebook-dir=" + str(jupyter_working_dir)], cwd=str(jupyter_working_dir))

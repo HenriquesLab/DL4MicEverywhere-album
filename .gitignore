@@ -1,3 +1,9 @@
 .cache
 public
 node_modules
+
+# For Mac users
+.DS_Store
+
+# Jupyter Notebook
+.ipynb_checkpoints
