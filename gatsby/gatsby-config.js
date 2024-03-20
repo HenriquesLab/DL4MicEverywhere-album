@@ -1,9 +1,9 @@
 module.exports = {
-  pathPrefix: `/catalogs/default`,
+  pathPrefix: `/DL4MicEverywhere-album`,
   siteMetadata: {
-    title: 'album catalog',
-    subtitle: 'sharing favourite solutions across tools and domains',
-    catalog_url: 'https://gitlab.com/album-app/catalogs/templates/catalog-gatsby',
+    title: 'DL4MicEverywhere Album solutions',
+    subtitle: 'Cutting-edge deep learning techniques for bioimage analysis',
+    catalog_url: 'https://github.com/HenriquesLab/DL4MicEverywhere-album',
     menuLinks:[
       {
          name:'Catalog',
