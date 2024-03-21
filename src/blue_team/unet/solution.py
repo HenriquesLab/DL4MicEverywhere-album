@@ -1,4 +1,49 @@
 from album.runner.api import setup
+from pathlib import Path
+
+
+env_file = """channels:
+  - conda-forge
+  - nvidia
+  - anaconda
+  - defaults
+dependencies:
+  - python=3.10
+  - cudatoolkit=11.2.2
+  - cudnn=8.1.0
+  - pip
+  - pkg-config
+  - pip:
+    - unzip
+    - GitPython
+    - PTable==0.9.2
+    - Pillow==8.4.0
+    - bioimageio.core==0.5.9
+    - data==0.4
+    - fpdf2==2.7.4
+    - future==0.18.3
+    - google==2.0.3
+    - matplotlib==3.7.1
+    - numexpr==2.8.4
+    - numpy==1.22.4
+    - pandas==1.5.3
+    - pathlib==1.0.1
+    - pip==23.1.2
+    - requests==2.28.0
+    - scikit-image==0.19.3
+    - scikit-learn==1.2.2
+    - scipy==1.10.1
+    - tensorflow==2.12.0
+    - tifffile==2023.7.4
+    - tqdm==4.65.0
+    - wget==3.2
+    - zarr==2.15.0
+    - nbformat==5.9.2
+    - ipywidgets==8.1.0
+    - jupyterlab==3.6.0
+name: dl4miceverywhere
+"""
+
 
 def install():
     from album.runner.api import get_app_path
@@ -6,6 +51,7 @@ def install():
     import subprocess
     import requests
     import shutil
+    import os
 
     # Clone the DL4MicEverywhere repository
     clone_url = "https://github.com/HenriquesLab/DL4MicEverywhere"
@@ -33,7 +79,10 @@ def install():
     subprocess.run(["mv", get_app_path().joinpath(f"colabless_{notebook_name}"), get_app_path().joinpath(f"{notebook_name}")])
 
     # Remove the cloned DL4MicEverywhere repository
-    shutil.rmtree(to)
+    if os.name == 'nt':
+        os.system(f'rmdir /s /q "{to}"')
+    else:
+        shutil.rmtree(to) # rmtree has no permission to do this on Windows
 
 def run():
     from album.runner.api import get_args, get_app_path
@@ -61,6 +110,7 @@ def run():
     # Optionally, launch the Jupyter notebook to show the results
     subprocess.run(["jupyter", "lab", str(notebook_path)], cwd=str(output_path))
 
+
 setup(
     group="blue_team",
     name="unet2d-zerocostdL4mic",
@@ -84,7 +134,7 @@ setup(
         "doi": "https://doi.org/10.1038/s41592-018-0261-2"
     }],
     solution_creators=["DL4MicEverywhere team", "album team"],
-    dependencies={"environment_file": "u-net_2d_zerocostdl4mic-latest.yml"},
+    dependencies={"environment_file": env_file},
     tags=["unet", "segmentation", "colab", "notebook", "U-Net", "ZeroCostDL4Mic", "2D", "dl4miceverywhere"],
     args=[
         {

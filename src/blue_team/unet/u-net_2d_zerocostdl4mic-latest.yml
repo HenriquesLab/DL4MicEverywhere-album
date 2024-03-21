@@ -1,6 +1,6 @@
 channels:
-  - conda-forge
   - nvidia
+  - conda-forge
   - anaconda
   - defaults
 dependencies:
