@@ -42,7 +42,7 @@ dependencies:
     - tqdm==4.65.0
     - visdom>=0.1.8.8, < 0.2.5
     - wandb>= 0.15.0, < 0.16
-    - -r "/Users/esti/Documents/PROYECTOS/DL4MicEverywhere/ALBUM/dl4miceverywhere-album/src/pix2pix_album/pytorch-CycleGAN-and-pix2pix/requirements.txt" 
+    - -r "https://raw.githubusercontent.com/junyanz/pytorch-CycleGAN-and-pix2pix/5fb32ef70032aafdaf9fc3276891c99eeaf09b01/requirements.txt" 
 name: dl4miceverywhere
 """
 
