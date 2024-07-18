@@ -1,6 +1,6 @@
 ###album catalog: cellcanvas
 
-# Based on https://github.com/HenriquesLab/DL4MicEverywhere/blob/main/notebooks/ZeroCostDL4Mic_notebooks/pix2pix_DL4Mic/configuration.yaml
+# Based on https://github.com/HenriquesLab/DL4MicEverywhere/blob/main/notebooks/ZeroCostDL4Mic_notebooks/DFCAN_DL4Mic/configuration.yaml
 # and https://github.com/betaseg/solutions/blob/main/solutions/io.github.betaseg/cellsketch-plot/solution.py
 
 from album.runner.api import setup
@@ -27,9 +27,9 @@ def install():
     assert (repository_path.exists())
 
     # URL of the notebook you want to download
-    notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/pix2pix_ZeroCostDL4Mic.ipynb"
+    notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/DFCAN_ZeroCostDL4Mic.ipynb"
     
-    notebook_path = get_app_path().joinpath("pix2pix_ZeroCostDL4Mic.ipynb")
+    notebook_path = get_app_path().joinpath("DFCAN_ZeroCostDL4Mic.ipynb")
     notebook_path.parent.mkdir(parents=True, exist_ok=True)
 
     response = requests.get(notebook_url)
@@ -44,11 +44,11 @@ def install():
     section_to_remove = "2. 6.3."
     section_to_remove = section_to_remove.split(' ')
     
-    python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "pix2pix_ZeroCostDL4Mic.ipynb", "-s"]
+    python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "DFCAN_ZeroCostDL4Mic.ipynb", "-s"]
     python_command += section_to_remove
 
     subprocess.run(python_command, cwd=repository_path)
-    subprocess.run(["mv", get_app_path().joinpath("colabless_pix2pix_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("pix2pix_ZeroCostDL4Mic.ipynb")])
+    subprocess.run(["mv", get_app_path().joinpath("colabless_DFCAN_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("DFCAN_ZeroCostDL4Mic.ipynb")])
 
     # Remove the cloned DL4MicEverywhere repository
     if os.name == 'nt':
@@ -67,7 +67,7 @@ def run():
     app_path = get_app_path()
     
     # Path to the downloaded notebook
-    notebook_path = app_path.joinpath("pix2pix_ZeroCostDL4Mic.ipynb")
+    notebook_path = app_path.joinpath("DFCAN_ZeroCostDL4Mic.ipynb")
 
     # Ensure the notebook exists
     assert notebook_path.exists(), "Notebook does not exist"
@@ -93,7 +93,7 @@ if gpu_access:
 - defaults
 """
     dependencies = """
-- python=3.8
+- python=3.9
 - cudatoolkit=11.8.0
 - cudnn=8.6.0
 - pip
@@ -105,7 +105,7 @@ else:
 - defaults
 """
     dependencies = f"""
-- python=3.8
+- python=3.9
 - pip
 - pkg-config
 """
@@ -117,53 +117,42 @@ dependencies:
 {dependencies}
 - pip:
     - GitPython==3.1.43 
-    - astropy==5.2.2
-    - Augmentor==0.2.12
-    - bioimageio.core==0.5.11
-    - dominate>=2.4.0, < 2.8.5
     - fpdf2==2.7.4
-    - google==2.0.3
+    - future==0.18.2
     - h5py==3.10.0
-    - imageio==2.25.1
-    - ipywidgets==8.0.7
-    - lpips==0.1.4
-    - matplotlib==3.7.1
+    - ipywidgets==8.1.1
+    - keras==2.12.0
+    - matplotlib==3.5.0
     - numexpr==2.8.4
     - numpy==1.22.4
-    - opencv-python==4.5.3.56
     - pandas==1.5.3
-    - pathlib==1.0.1
-    - pip==23.1.2
-    - scikit-image==0.19.3
-    - scikit-learn==1.2.2
+    - Pillow==8.4.0
+    - pip==21.2.4
     - scipy==1.10.1
+    - scikit-image==0.19.3
+    - scikit-learn==1.0.1
     - tensorflow==2.12.0
-    - tifffile==2023.7.10
-    - torch==2.0.1
-    - torchvision>=0.5.0, <0.15.5
     - tqdm==4.65.0
-    - visdom>=0.1.8.8, < 0.2.5
-    - wandb>= 0.15.0, < 0.16
     - nbformat==5.9.2
     - jupyterlab==3.4.0
 """
 
 setup(
     group="DL4MicEverywhere",
-    name="pix2pix-zerocostdl4mic",
-    version="1.17.3",
+    name="dfcan-zerocostdl4mic",
+    version="1.14.1",
     solution_creators=["DL4Mic team", "album team"],
-    title="pix2pix-zerocostdl4mic implementation.",
-    description="Paired image-to-image translation of 2D images. pix2pix is a deep-learning method that can be used to translate one type of images into another. While pix2pix can potentially be used for any type of image-to-image translation, we demonstrate that it can be used to predict a fluorescent image from another fluorescent image. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
+    title="dfcan-zerocostdl4mic implementation.",
+    description="Super-resolution via super-pixelisation. Deep Fourier channel attention network (DFCAN) is a network created to transform low-resolution (LR) images to super-resolved (SR) images, published by Qiao, Chang and Li, Di and Guo, Yuting and Liu, Chong and Jiang, Tao and Dai, Qionghai and Li, Dong. The training is done using LR-SR image pairs, taking the LR images as input and obtaining an output as close to SR as posible.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'pix2pix', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
+    tags=['colab', 'notebook', 'DFCAN', 'Super Resolution', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
         "default": ".",
         "description": "What is your working path?"
     }],
-    cite=[{'doi': 'https://doi.org/10.1038/s41467-021-22518-0', 'text': 'von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0'}, {'text': 'Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, Alexei A. Efros. Image-to-Image Translation with Conditional Adversarial Networks. arXiv:1611.07004.', 'url': 'https://arxiv.org/abs/1611.07004'}],
+    cite=[{'doi': 'https://doi.org/10.1038/s41467-021-22518-0', 'text': 'von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0'}, {'doi': 'https://doi.org/10.1038/s41592-020-01048-5', 'text': 'Qiao C, Li D, Guo Y, Liu C, Jiang T, Dai Q, Li D. Evaluation and development of deep neural networks for image super-resolution in optical microscopy. Nat Methods. 2021 Feb;18(2):194-202. doi: 10.1038/s41592-020-01048-5. Epub 2021 Jan 21. PMID: 33479522. '}],
     album_api_version="0.5.1",
     covers=[],
     run=run,

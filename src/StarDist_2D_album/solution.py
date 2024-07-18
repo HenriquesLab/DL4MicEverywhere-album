@@ -1,6 +1,6 @@
 ###album catalog: cellcanvas
 
-# Based on https://github.com/HenriquesLab/DL4MicEverywhere/blob/main/notebooks/ZeroCostDL4Mic_notebooks/pix2pix_DL4Mic/configuration.yaml
+# Based on https://github.com/HenriquesLab/DL4MicEverywhere/blob/main/notebooks/ZeroCostDL4Mic_notebooks/StarDist_2D_DL4Mic/configuration.yaml
 # and https://github.com/betaseg/solutions/blob/main/solutions/io.github.betaseg/cellsketch-plot/solution.py
 
 from album.runner.api import setup
@@ -27,9 +27,9 @@ def install():
     assert (repository_path.exists())
 
     # URL of the notebook you want to download
-    notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/pix2pix_ZeroCostDL4Mic.ipynb"
+    notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/StarDist_2D_ZeroCostDL4Mic.ipynb"
     
-    notebook_path = get_app_path().joinpath("pix2pix_ZeroCostDL4Mic.ipynb")
+    notebook_path = get_app_path().joinpath("StarDist_2D_ZeroCostDL4Mic.ipynb")
     notebook_path.parent.mkdir(parents=True, exist_ok=True)
 
     response = requests.get(notebook_url)
@@ -41,14 +41,14 @@ def install():
     assert notebook_path.exists(), "Notebook download failed"
 
     # Convert the notebook to its colabless form
-    section_to_remove = "2. 6.3."
+    section_to_remove = "1.1. 1.2. 2. 6.3."
     section_to_remove = section_to_remove.split(' ')
     
-    python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "pix2pix_ZeroCostDL4Mic.ipynb", "-s"]
+    python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "StarDist_2D_ZeroCostDL4Mic.ipynb", "-s"]
     python_command += section_to_remove
 
     subprocess.run(python_command, cwd=repository_path)
-    subprocess.run(["mv", get_app_path().joinpath("colabless_pix2pix_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("pix2pix_ZeroCostDL4Mic.ipynb")])
+    subprocess.run(["mv", get_app_path().joinpath("colabless_StarDist_2D_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("StarDist_2D_ZeroCostDL4Mic.ipynb")])
 
     # Remove the cloned DL4MicEverywhere repository
     if os.name == 'nt':
@@ -67,7 +67,7 @@ def run():
     app_path = get_app_path()
     
     # Path to the downloaded notebook
-    notebook_path = app_path.joinpath("pix2pix_ZeroCostDL4Mic.ipynb")
+    notebook_path = app_path.joinpath("StarDist_2D_ZeroCostDL4Mic.ipynb")
 
     # Ensure the notebook exists
     assert notebook_path.exists(), "Notebook does not exist"
@@ -93,7 +93,7 @@ if gpu_access:
 - defaults
 """
     dependencies = """
-- python=3.8
+- python=3.10
 - cudatoolkit=11.8.0
 - cudnn=8.6.0
 - pip
@@ -105,7 +105,7 @@ else:
 - defaults
 """
     dependencies = f"""
-- python=3.8
+- python=3.10
 - pip
 - pkg-config
 """
@@ -117,53 +117,56 @@ dependencies:
 {dependencies}
 - pip:
     - GitPython==3.1.43 
-    - astropy==5.2.2
-    - Augmentor==0.2.12
-    - bioimageio.core==0.5.11
-    - dominate>=2.4.0, < 2.8.5
+    - PTable==0.9.2
+    - Pillow==9.4.0
+    - astropy==5.3.4
+    - csbdeep==0.7.4
     - fpdf2==2.7.4
+    - future==0.18.3
     - google==2.0.3
+    - gputools==0.2.14
     - h5py==3.10.0
-    - imageio==2.25.1
+    - imagecodecs==2023.7.10
     - ipywidgets==8.0.7
-    - lpips==0.1.4
     - matplotlib==3.7.1
-    - numexpr==2.8.4
-    - numpy==1.22.4
-    - opencv-python==4.5.3.56
+    - numpy==1.23.5
+    - opencv-python==4.8.0.76
     - pandas==1.5.3
     - pathlib==1.0.1
     - pip==23.1.2
+    - requests==2.27.1
     - scikit-image==0.19.3
     - scikit-learn==1.2.2
     - scipy==1.10.1
-    - tensorflow==2.12.0
-    - tifffile==2023.7.10
-    - torch==2.0.1
-    - torchvision>=0.5.0, <0.15.5
+    - stardist[bioimageio]
+    - tabulate==0.9.0
+    - tensorflow==2.14.0
+    - tifffile==2023.7.18
     - tqdm==4.65.0
-    - visdom>=0.1.8.8, < 0.2.5
-    - wandb>= 0.15.0, < 0.16
+    - wget==3.2
+    - zarr==2.16.0
+    - bioimageio.core 
+    - keras==2.14.0
     - nbformat==5.9.2
     - jupyterlab==3.4.0
 """
 
 setup(
     group="DL4MicEverywhere",
-    name="pix2pix-zerocostdl4mic",
-    version="1.17.3",
+    name="stardist-2d-zerocostdl4mic",
+    version="1.19.3",
     solution_creators=["DL4Mic team", "album team"],
-    title="pix2pix-zerocostdl4mic implementation.",
-    description="Paired image-to-image translation of 2D images. pix2pix is a deep-learning method that can be used to translate one type of images into another. While pix2pix can potentially be used for any type of image-to-image translation, we demonstrate that it can be used to predict a fluorescent image from another fluorescent image. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
+    title="stardist-2d-zerocostdl4mic implementation.",
+    description="2D instance segmentation of oval objects (ie nuclei). StarDist is a deep-learning method that can be used to segment cell nuclei in 2D (xy) single images or in stacks (xyz). Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'pix2pix', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
+    tags=['colab', 'notebook', 'StarDist', 'segmentation', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
         "default": ".",
         "description": "What is your working path?"
     }],
-    cite=[{'doi': 'https://doi.org/10.1038/s41467-021-22518-0', 'text': 'von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0'}, {'text': 'Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, Alexei A. Efros. Image-to-Image Translation with Conditional Adversarial Networks. arXiv:1611.07004.', 'url': 'https://arxiv.org/abs/1611.07004'}],
+    cite=[{'doi': 'https://doi.org/10.1038/s41467-021-22518-0', 'text': 'von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0'}, {'doi': 'https://doi.org/10.1007/978-3-030-00934-2_30', 'text': 'Uwe Schmidt, Martin Weigert, Coleman Broaddus, Gene Myers. Cell Detection with Star-Convex Polygons. MICCAI 2018 (2018). https://doi.org/10.1007/978-3-030-00934-2_30'}],
     album_api_version="0.5.1",
     covers=[],
     run=run,
