@@ -1,0 +1,33 @@
+album_api_version: 0.5.1
+args:
+- default: .
+  description: What is your working path?
+  name: path
+  type: string
+changelog: ../CHANGELOG.md
+cite:
+- doi: https://doi.org/10.1038/s41467-021-22518-0
+  text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
+    for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0
+- doi: https://doi.org/10.1038/s41592-020-01018-x
+  text: "Stringer, C., Wang, T., Michaelos, M. et al. Cellpose: a generalist algorithm\
+    \ for cellular segmentation. Nat Methods 18, 100\u2013106 (2021). https://doi.org/10.1038/s41592-020-01018-x"
+covers: []
+description: Instance segmentation of 2D and 3D images. Cellpose is a generalist algorithm
+  for cellular segmentation.
+documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md
+group: DL4MicEverywhere
+name: cellpose-2d-zerocostdl4mic
+solution_creators:
+- DL4Mic team
+- album team
+tags:
+- colab
+- notebook
+- Cellpose
+- Segmentation
+- ZeroCostDL4Mic
+- dl4miceverywhere
+timestamp: '2024-10-15T17:46:23.298006'
+title: cellpose-2d-zerocostdl4mic implementation.
+version: 1.16.3
