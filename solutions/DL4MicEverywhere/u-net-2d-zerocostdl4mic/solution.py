@@ -22,9 +22,9 @@ def install():
 
     # Clone the DL4MicEverywhere repository
     clone_url = "https://github.com/HenriquesLab/DL4MicEverywhere"
-    repository_path = get_app_path().joinpath("DL4MicEverywhere")
-    Repo.clone_from(clone_url, repository_path)
-    assert (repository_path.exists())
+    repo_path = get_app_path().joinpath("DL4MicEverywhere")
+    Repo.clone_from(clone_url, repo_path)
+    assert (repo_path.exists())
 
     # URL of the notebook you want to download
     notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/U-Net_2D_ZeroCostDL4Mic.ipynb"
@@ -47,7 +47,7 @@ def install():
     python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "U-Net_2D_ZeroCostDL4Mic.ipynb", "-s"]
     python_command += section_to_remove
 
-    subprocess.run(python_command, cwd=repository_path)
+    subprocess.run(python_command, cwd=to)
     subprocess.run(["mv", get_app_path().joinpath("colabless_U-Net_2D_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("U-Net_2D_ZeroCostDL4Mic.ipynb")])
 
     # Remove the cloned DL4MicEverywhere repository
@@ -55,7 +55,7 @@ def install():
         os.system(f'rmdir /s /q "{to}"')
     else:
         # rmtree has no permission to do this on Windows
-        shutil.rmtree(repository_path) 
+        shutil.rmtree(to) 
 
 def run():
     from album.runner.api import get_args, get_app_path
@@ -141,8 +141,6 @@ dependencies:
     - tqdm==4.65.0
     - wget==3.2
     - zarr==2.15.0
-    - nbformat==5.9.2
-    - jupyterlab==3.4.0
 """
 
 setup(
