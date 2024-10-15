@@ -118,29 +118,28 @@ dependencies:
 - pip:
     - GitPython==3.1.43 
     - PTable==0.9.2
-    - Pillow==8.4.0
-    - bioimageio.core==0.5.9
+    - Pillow==10.4.0
+    - bioimageio.core==0.6.9
     - data==0.4
-    - fpdf2==2.7.4
-    - future==0.18.3
-    - google==2.0.3
+    - fpdf2==2.7.9
+    - future==1.0.0
     - h5py==3.10.0
     - ipywidgets==8.0.7
     - matplotlib==3.7.1
-    - numexpr==2.8.4
-    - numpy==1.22.4
-    - pandas==1.5.3
+    - numexpr==2.10.1
+    - numpy==1.26.4
+    - pandas==2.1.4
     - pathlib==1.0.1
-    - pip==23.1.2
-    - requests==2.27.1
-    - scikit-image==0.19.3
-    - scikit-learn==1.2.2
-    - scipy==1.10.1
-    - tensorflow==2.12.0
-    - tifffile==2023.7.4
-    - tqdm==4.65.0
+    - pip==24.1.2
+    - requests==2.32.3
+    - scikit-image==0.24.0
+    - scikit-learn==1.5.2
+    - scipy==1.13.1
+    - tensorflow==2.15.0
+    - tifffile==2024.9.20
+    - tqdm==4.66.5
     - wget==3.2
-    - zarr==2.15.0
+    - zarr==2.18.3
     - nbformat==5.9.2
     - jupyterlab==3.4.0
 """
@@ -148,7 +147,7 @@ dependencies:
 setup(
     group="DL4MicEverywhere",
     name="u-net-2d-multilabel-zerocostdl4mic",
-    version="2.1.2",
+    version="2.1.3",
     solution_creators=["DL4Mic team", "album team"],
     title="u-net-2d-multilabel-zerocostdl4mic implementation.",
     description="2D semantic segmentation. U-Net is an encoder-decoder architecture originally used for image segmentation. The first half of the U-Net architecture is a downsampling convolutional neural network which acts as a feature extractor from input images. The other half upsamples these results and restores an image by combining results from downsampling with the upsampled images. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",

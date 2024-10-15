@@ -154,7 +154,7 @@ dependencies:
 setup(
     group="DL4MicEverywhere",
     name="stardist-2d-zerocostdl4mic",
-    version="1.19.3",
+    version="1.20.2",
     solution_creators=["DL4Mic team", "album team"],
     title="stardist-2d-zerocostdl4mic implementation.",
     description="2D instance segmentation of oval objects (ie nuclei). StarDist is a deep-learning method that can be used to segment cell nuclei in 2D (xy) single images or in stacks (xyz). Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
