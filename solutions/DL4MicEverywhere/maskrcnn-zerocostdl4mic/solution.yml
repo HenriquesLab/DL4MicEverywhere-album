@@ -1,0 +1,34 @@
+album_api_version: 0.5.1
+args:
+- default: .
+  description: What is your working path?
+  name: path
+  type: string
+changelog: ../CHANGELOG.md
+cite:
+- doi: https://doi.org/10.1038/s41467-021-22518-0
+  text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
+    for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0
+- text: "Kaiming He, Georgia Gkioxari, Piotr Doll\xE1r, Ross Girshick. Mask R-CNN\
+    \ . arXiv:1703.06870."
+  url: https://arxiv.org/abs/1703.06870
+covers: []
+description: Instance segmentation of 2D images. MaskRCNN is a is an object detection
+  and segmentation network, which identifies objects in images and draws bounding
+  boxes around them.
+documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md
+group: DL4MicEverywhere
+name: maskrcnn-zerocostdl4mic
+solution_creators:
+- DL4Mic team
+- album team
+tags:
+- colab
+- notebook
+- MaskRCNN
+- object detection
+- ZeroCostDL4Mic
+- dl4miceverywhere
+timestamp: '2024-10-15T17:48:49.937116'
+title: maskrcnn-zerocostdl4mic implementation.
+version: 1.14.1
