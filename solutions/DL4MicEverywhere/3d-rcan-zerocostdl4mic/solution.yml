@@ -4,7 +4,7 @@ args:
   description: What is your working path?
   name: path
   type: string
-changelog: null
+changelog: ../CHANGELOG.md
 cite:
 - doi: https://doi.org/10.1038/s41467-021-22518-0
   text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
@@ -36,6 +36,6 @@ tags:
 - ZeroCostDL4Mic
 - 3D
 - dl4miceverywhere
-timestamp: '2024-10-15T17:43:06.477740'
+timestamp: '2024-10-15T17:45:39.406892'
 title: 3d-rcan-zerocostdl4mic implementation.
 version: 1.14.1
