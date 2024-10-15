@@ -1,0 +1,39 @@
+album_api_version: 0.5.1
+args:
+- default: .
+  description: What is your working path?
+  name: path
+  type: string
+changelog: /Users/ihidalgo/Documents/git/DL4MicEverywhere-album/CHANGELOG.md
+cite:
+- doi: https://doi.org/10.1038/s41467-021-22518-0
+  text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
+    for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0
+- text: 'Olaf Ronneberger, Philipp Fischer, Thomas Brox. U-Net: Convolutional Networks
+    for Biomedical Image Segmentation. arXiv:1505.04597. https://arxiv.org/abs/1505.04597'
+  url: https://arxiv.org/abs/1505.04597
+covers: []
+description: 2D binary segmentation. U-Net is an encoder-decoder architecture originally
+  used for image segmentation. The first half of the U-Net architecture is a downsampling
+  convolutional neural network which acts as a feature extractor from input images.
+  The other half upsamples these results and restores an image by combining results
+  from downsampling with the upsampled images. Note - visit the ZeroCostDL4Mic wiki
+  to check the original publications this network is based on and make sure you cite
+  these.
+documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md
+group: DL4MicEverywhere
+name: u-net-2d-zerocostdl4mic
+solution_creators:
+- DL4Mic team
+- album team
+tags:
+- colab
+- notebook
+- U-Net
+- segmentation
+- ZeroCostDL4Mic
+- 2D
+- dl4miceverywhere
+timestamp: '2024-10-15T17:08:50.166829'
+title: u-net-2d-zerocostdl4mic implementation.
+version: 2.2.1
