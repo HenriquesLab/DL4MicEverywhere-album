@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Sets up Node.js version 14
+          node-version: '20'  # Sets up Node.js version 20
 
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -28,23 +28,21 @@ jobs:
           path: |
             gatsby/node_modules/
             gatsby/.cache/
-            public/
+            gatsby/public/
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }} # Creates a unique key for the cache based on the OS and the hash of package-lock.json file
           restore-keys: |
             ${{ runner.os }}-npm-
 
       - name: Install and Build
+        working-directory: ./gatsby
         run: |
-          rm -f -R public
-          cd gatsby
           npm install
           ./node_modules/.bin/gatsby build --prefix-paths
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./public
-
+          path: ./gatsby/public
 
   # Deployment job
   Deploy_webpage:
@@ -56,4 +54,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v3
