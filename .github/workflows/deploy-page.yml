@@ -28,21 +28,23 @@ jobs:
           path: |
             gatsby/node_modules/
             gatsby/.cache/
-            gatsby/public/
+            public/
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }} # Creates a unique key for the cache based on the OS and the hash of package-lock.json file
           restore-keys: |
             ${{ runner.os }}-npm-
 
       - name: Install and Build
-        working-directory: ./gatsby
         run: |
+          rm -f -R public
+          cd gatsby
           npm install
           ./node_modules/.bin/gatsby build --prefix-paths
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./gatsby/public
+          path: ./public
+
 
   # Deployment job
   Deploy_webpage:
