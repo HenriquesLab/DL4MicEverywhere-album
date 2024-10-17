@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main  # This workflow will be triggered when changes are pushed to main branch
+      - fix_ci  # This workflow will be triggered when changes are pushed to main branch
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '14'  # Sets up Node.js version 14
+          node-version: '20'  # Sets up Node.js version 14
 
       - name: Cache dependencies
         uses: actions/cache@v4
@@ -56,4 +56,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
