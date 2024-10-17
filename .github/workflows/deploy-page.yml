@@ -2,7 +2,7 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - fix_ci  # This workflow will be triggered when changes are pushed to main branch
+      - main  # This workflow will be triggered when changes are pushed to main branch
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
