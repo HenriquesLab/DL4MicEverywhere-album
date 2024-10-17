@@ -124,7 +124,7 @@ setup(
     group="DL4MicEverywhere",
     name="NAME",
     version="VERSION",
-    solution_creators=["DL4Mic team", "album team"],
+    solution_creators=["DL4MicEverywhere team", "album team"],
     title="TITLE",
     description="DESCRIPTION",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
