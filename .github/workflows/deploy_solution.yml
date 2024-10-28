@@ -1,0 +1,142 @@
+name: Build Docker images for a configuration from ZeroCostDL4Mic that has been updated
+
+on:
+  workflow_call:
+    inputs:
+      config_file: # the variable you can use in place of a matrix
+        required: true
+        type: string
+
+jobs:
+  get_arguments:
+    name: Extract arguments from configuration
+    runs-on: [self-hosted, dl4miceverywhere-builder]
+    steps:
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+        with: 
+          path: DL4MicEverywhere-album
+      - name: Clone DL4MicEverywhere repository
+        uses: actions/checkout@v4
+        with:
+          repository: HenriquesLab/DL4MicEverywhere
+          path: DL4MicEverywhere
+      # Set up Python for its use
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          cache: 'pip' # caching pip dependencies
+
+      # First udpate the solution.py file
+      - name: Install requirements
+        run: pip install -r .tools/requirements.txt
+      - name: Update the version of the notebook on the configuration
+        run: python3 ./DL4MicEverywhere-album/.tools/python_tools/convert_config_to_solution.py './DL4MicEverywhere' '${{ inputs.config_file }}'
+  
+
+  build_amd64:
+    name: Install solution on AMD64
+    runs-on: [self-hosted, dl4miceverywhere-builder]
+    needs: get_arguments
+    steps:
+      - name: Clone DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+      - name: Configure album using micromamba
+        uses: mamba-org/setup-micromamba@v1
+        with:
+          micromamba-version: '1.5.6-0' # any version from https://github.com/mamba-org/micromamba-releases
+          init-shell: >-
+            bash
+            powershell
+          condarc: |
+            channels:
+              - conda-forge
+          environment-name: album
+          create-args: album
+          cache-environment: true
+          post-cleanup: 'all'
+      - name: Add catalog
+        run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+      - name: Install certain solution
+        run: album install './src/${{ inputs.config_file }}/solution.py'
+
+  # build_arm64:
+  #   name: Build Docker image on ARM64
+  #   runs-on: [self-hosted, macOS, ARM64]
+  #   needs: get_arguments
+  #   steps:
+  #     - name: Clone DL4MicEverywhere repository
+  #       uses: actions/checkout@v4
+
+  # build_only_arm64:
+  #   name: Only push ARM64 to Docker Hub 
+  #   if: ${{ always() && contains(needs.build_amd64.result, 'failure') }}
+  #   needs:
+  #     - get_arguments
+  #     - build_amd64
+  #     - build_arm64
+  #   runs-on:  [self-hosted, dl4miceverywhere-builder]
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Clone DL4MicEverywhere repository
+  #       uses: actions/checkout@v4
+
+  # build_only_amd64:
+  #   name: Only push AMD64 to Docker Hub
+  #   if: ${{ always() && contains(needs.build_arm64.result, 'failure') }}
+  #   needs:
+  #     - get_arguments
+  #     - build_amd64
+  #     - build_arm64
+  #   runs-on:  [self-hosted, dl4miceverywhere-builder]
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Clone DL4MicEverywhere repository
+  #       uses: actions/checkout@v4
+
+  # build_multi_architecture:
+  #   name: Both push AMD64 and ARM64 to Docker Hub
+  #   needs:
+  #     - get_arguments
+  #     - build_amd64
+  #     - build_arm64
+  #   runs-on:  [self-hosted, dl4miceverywhere-builder]
+  #   permissions:
+  #     id-token: write
+  #     contents: read
+  #   steps:
+  #     - name: Clone DL4MicEverywhere repository
+  #       uses: actions/checkout@v4
+
+  # update_config:
+  #   name: Update the versions on configurations
+  #   runs-on: [ubuntu-latest]
+  #   if: ${{ always() && ( contains(needs.build_multi_architecture.result, 'success')  || contains(needs.build_only_arm64.result, 'success') || contains(needs.build_only_amd64.result, 'success') ) }}
+  #   needs:
+  #     - build_multi_architecture
+  #     - build_only_arm64
+  #     - build_only_amd64
+  #   steps:
+  #     - name: Wait a minute
+  #       run: sleep 60
+  #     - name: Clone DL4MicEverywhere repository
+  #       uses: actions/checkout@v4
+  #     - name: Update the repository with git pull
+  #       run: git pull
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.9'
+  #         cache: 'pip' # caching pip dependencies
+  #     - name: Install requirements
+  #       run: pip install -r .tools/requirements.txt
+  #     - name: Update the version of the notebook on the configuration
+  #       run: python3 .tools/python_tools/update_zerocost_version.py '${{ inputs.config_file }}' 
+  #     - name: Update the docker_tag on the configuration
+  #       run: python3 .tools/python_tools/update_configuration.py '${{ inputs.config_file }}' 
+  #     - uses: stefanzweifel/git-auto-commit-action@v5
+  #       with:
+  #         commit_message: GitHub Action - Update the notebook version on the configuration

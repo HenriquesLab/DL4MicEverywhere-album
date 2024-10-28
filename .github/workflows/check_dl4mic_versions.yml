@@ -1,0 +1,74 @@
+name: Check and build updated ZeroCostDL4Mic notebook
+
+on:
+  # At 01:30 AM of every day
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch:
+
+jobs:
+    check_notebooks:
+      name: Get the configurations from notebooks that need to be updated
+      outputs:
+        matrix: ${{ steps.create_json.outputs.matrix }}
+      runs-on: [self-hosted, dl4miceverywhere-builder]
+      steps:
+        - name: Clone actual DL4MicEverywhere-album repository
+          uses: actions/checkout@v4
+          with: 
+            path: DL4MicEverywhere-album
+        - name: Clone DL4MicEverywhere repository
+          uses: actions/checkout@v4
+          with:
+            repository: HenriquesLab/DL4MicEverywhere
+            path: DL4MicEverywhere
+        - uses: actions/setup-python@v5
+          with:
+            python-version: '3.9'
+            cache: 'pip' # caching pip dependencies
+        - name: Install requirements
+          run: pip install -r DL4MicEverywhere-album/.tools/requirements.txt
+        - name: Check for updates on the notebooks
+          id: updated_notebooks
+          run: |
+            output=$(python3 DL4MicEverywhere-album/.tools/python_tools/check_dl4mic_versions.py)
+            echo "$output"
+            echo "value=$output" >> $GITHUB_OUTPUT
+        - if: ${{ steps.updated_notebooks.outputs.value != '' }}
+          name: List and extract all notebook with new version
+          id: create_json
+          run: |
+            echo "Start"
+            files_json="{\"include\":[{\"notebook\":\""
+            echo "$files_json"
+            first=true
+            for file in ${{ steps.updated_notebooks.outputs.value }}; do
+              echo "$file was changed"
+              if [ "$first" = true ]; then
+                files_json+=$file
+                first=false
+              else
+                files_json+="\"},{\"notebook\":\""$file
+              fi
+              echo "$files_json"
+            done
+            files_json+="\"}]}"
+            echo "$files_json"
+            echo "matrix=$files_json" >> $GITHUB_OUTPUT
+            echo "END"
+  
+    config_matrix:
+      if: ${{ needs.check_notebooks.outputs.matrix != '' }} 
+      name: Call the installing and deploying, and possible update configuration
+      needs: check_notebooks
+      strategy:
+        # put fail-fast as false if you want to see all results even if one fails,
+        # fail-fast is true by default
+        fail-fast: false
+        matrix: ${{ fromJson(needs.check_notebooks.outputs.matrix) }} 
+      uses: ./.github/workflows/deploy_solution.yml # calls the one above ^
+      with:
+        config_file: ${{ matrix.notebook }}
+      secrets: inherit
+          
+  

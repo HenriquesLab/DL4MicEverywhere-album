@@ -4,8 +4,12 @@ import sys
 import os
 import re
 
-def convert_config_to_solution(notebook_folder, DL4MicEverywhere_path):
+def convert_config_to_solution(config_path):
+    # Use regular expressions tu extract the base path and the notebook folder
+    DL4MicEverywhere_path, notebook_folder = re.findall(r"(.*).notebooks.ZeroCostDL4Mic_notebooks.(.*).configuration.yaml", config_path)[0]
+    convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, notebook_folder=notebook_folder)
 
+def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
     config_path = os.path.join(DL4MicEverywhere_path, "notebooks", "ZeroCostDL4Mic_notebooks", notebook_folder, "configuration.yaml") 
     
     if not os.path.exists(config_path):
@@ -107,28 +111,28 @@ def convert_config_to_solution(notebook_folder, DL4MicEverywhere_path):
     with open(os.path.join(album_folder_path, "solution.py"), "w") as solution_file:
         solution_file.write(solution_file_text)
 
-def main():
-    from git import Repo
-    import tempfile
-    import shutil
+def main(dl4miceverywhere_path=None):
 
-    # Get the temporal folder
-    temporal_folder = tempfile.gettempdir()
+    # Check if paths to the repositories have been provided and if not, it will be assumed that they are located in the same folder.
+    if dl4miceverywhere_path is None:
+        dl4miceverywhere_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..', '..', 'DL4MicEverywhere'))
 
-    # Clone the DL4MicEverywhere repository on the temporal folder
-    clone_url = "https://github.com/HenriquesLab/DL4MicEverywhere"
-    DL4MicEverywhere_path = os.path.join(temporal_folder, "DL4MicEverywhere")
-    Repo.clone_from(clone_url, DL4MicEverywhere_path)
-
-    notebook_path = os.path.join(DL4MicEverywhere_path, "notebooks", "ZeroCostDL4Mic_notebooks")
+    notebook_path = os.path.join(dl4miceverywhere_path, "notebooks", "ZeroCostDL4Mic_notebooks")
     
     for notebook_name in os.listdir(notebook_path):
         if os.path.isdir(os.path.join(notebook_path, notebook_name)):
-            convert_config_to_solution(notebook_name, DL4MicEverywhere_path)
-
-    # Remove DL4MicEverywhere from the temporal folder
-    shutil.rmtree(DL4MicEverywhere_path)
+            convert_config_to_solution(DL4MicEverywhere_path=dl4miceverywhere_path, notebook_name=notebook_name)
 
 if __name__ == "__main__":
     if len(sys.argv) <= 1:
+        # Precondition: Both DL4MicEverywhere and DL4Miceverywhere-album need to be located in the same folder.
+        # This can be done on GitHub CI with a double checkout. 
         sys.exit(main())
+    elif len(sys.argv) == 2:
+        # Configuration path is provided
+        sys.exit(convert_config_to_solution(config=sys.argv[1]))
+    elif len(sys.argv) == 3:
+        # DL4MicEverywhere path and notebook_folder name are provided
+        sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_name=sys.argv[2]))
+    else:
+        sys.exit(1)
