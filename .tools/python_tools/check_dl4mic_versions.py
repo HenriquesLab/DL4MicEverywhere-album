@@ -5,7 +5,7 @@ import os
 def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
 
     print('Calling main')
-    print(os.listidir('.'))
+    print(os.listdir('.'))
 
     # Check if paths to the repositories have been provided and if not, it will be assumed that they are located in the same folder.
     if dl4miceverywhere_path is None:
