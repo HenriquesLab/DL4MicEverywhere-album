@@ -4,9 +4,6 @@ import os
 
 def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
 
-    print('Calling main')
-    print(os.listdir('.'))
-
     # Check if paths to the repositories have been provided and if not, it will be assumed that they are located in the same folder.
     if dl4miceverywhere_path is None:
         dl4miceverywhere_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..', '..', 'DL4MicEverywhere'))
@@ -37,6 +34,7 @@ def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
         notebook_name = notebook_name.lower().replace(".ipynb", "").replace("_", "-")
         solution_path = os.path.join(dl4miceverywhere_album_solution_path, notebook_name, 'solution.yml')
 
+
         # Read the information from the solution
         with open(solution_path, 'r', encoding='utf8') as f:
             solution_data = yaml.safe_load(f)
@@ -45,7 +43,7 @@ def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
 
         # Check if they have the same version
         if config_version != solution_version:
-            updated_notebooks.append(notebook_name)
+            updated_notebooks.append(notebook)
 
     if len(updated_notebooks) == 0:
         print('')
@@ -56,11 +54,7 @@ if __name__ == '__main__':
     if len(sys.argv) <= 1:
         # Precondition: Both DL4MicEverywhere and DL4Miceverywhere-album need to be located in the same folder.
         # This can be done on GitHub CI with a double checkout.
-        # sys.exit(main())
-
-        print('Before calling main')
-        print(os.listdir('.'))
-        main()
+        sys.exit(main())
     elif len(sys.argv) == 3:
         # Both paths are provided
         print(f'Path to DL4MicEverywhere folder: {sys.argv[1]}')

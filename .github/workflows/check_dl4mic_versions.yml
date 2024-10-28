@@ -27,11 +27,13 @@ jobs:
             python-version: '3.9'
             cache: 'pip' # caching pip dependencies
         - name: Install requirements
-          run: pip install -r DL4MicEverywhere-album/.tools/requirements.txt
+          working-directory: ./DL4MicEverywhere-album
+          run: pip install -r .tools/requirements.txt
         - name: Check for updates on the notebooks
+          working-directory: ./DL4MicEverywhere-album
           id: updated_notebooks
           run: |
-            output=$(python3 DL4MicEverywhere-album/.tools/python_tools/check_dl4mic_versions.py)
+            output=$(python3 .tools/python_tools/check_dl4mic_versions.py)
             echo "$output"
             echo "value=$output" >> $GITHUB_OUTPUT
         - if: ${{ steps.updated_notebooks.outputs.value != '' }}
