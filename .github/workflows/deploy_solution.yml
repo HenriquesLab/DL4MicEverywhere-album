@@ -32,8 +32,8 @@ jobs:
         working-directory: ./DL4MicEverywhere-album
         run: pip install -r .tools/requirements.txt
       - name: Update the version of the notebook on the configuration
-        working-directory: ./DL4MicEverywhere-album
-        run: python3 .tools/python_tools/convert_config_to_solution.py './DL4MicEverywhere' '${{ inputs.config_file }}'
+        working-directory: ./DL4MicEverywhere
+        run: python3 .tools/python_tools/convert_config_to_solution.py '.' '${{ inputs.config_file }}'
   
 
   build_amd64:
