@@ -29,9 +29,18 @@ jobs:
         - name: Install requirements
           working-directory: ./DL4MicEverywhere-album
           run: pip install -r .tools/requirements.txt
-        - name: Look things
+        - name: Look things out
           working-directory: ./DL4MicEverywhere-album
           run: ls ..
+        - name: Look things in the folder
+          working-directory: ./DL4MicEverywhere-album
+          run: ls
+        - name: Look things in solutions
+          working-directory: ./DL4MicEverywhere-album
+          run: ls solutions
+        - name: Look things in solutions
+          working-directory: ./DL4MicEverywhere-album
+          run: ls solutions/DL4MicEverywhere
         - name: Check for updates on the notebooks
           working-directory: ./DL4MicEverywhere-album
           id: updated_notebooks
