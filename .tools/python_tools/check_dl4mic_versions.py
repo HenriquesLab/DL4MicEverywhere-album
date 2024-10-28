@@ -17,7 +17,7 @@ def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
     dl4miceverywhere_notebooks_path = os.path.join(dl4miceverywhere_path, 'notebooks', 'ZeroCostDL4Mic_notebooks') # TODO: add all the types of notebooks
     dl4miceverywhere_album_solution_path = os.path.join(dl4miceverywhere_album_path, 'solutions', 'DL4MicEverywhere') # TODO: add all the types of notebooks
 
-    dl4miceverywhere_notebooks_list = [e for e in os.listdir(dl4miceverywhere_notebooks_path) if os.path.isdir(os.path.join(dl4miceverywhere_notebooks_path, e))]
+    dl4miceverywhere_notebooks_list = [e for e in sorted(os.listdir(dl4miceverywhere_notebooks_path)) if os.path.isdir(os.path.join(dl4miceverywhere_notebooks_path, e))]
 
     for notebook in dl4miceverywhere_notebooks_list:
         # First, get the version from DL4MicEverywhere's configuration
