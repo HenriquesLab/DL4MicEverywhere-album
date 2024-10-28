@@ -26,7 +26,7 @@ description: Paired image-to-image translation of 2D images. pix2pix is a deep-l
   is based on and make sure you cite these.
 documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md
 group: DL4MicEverywhere
-name: pix2pix-zerocostdL4mic
+name: pix2pix-zerocostdl4mic
 solution_creators:
 - DL4Mic team
 - album team

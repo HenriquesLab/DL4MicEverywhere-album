@@ -117,7 +117,7 @@ def run():
 
 setup(
     group="DL4MicEverywhere",
-    name="pix2pix-zerocostdL4mic",
+    name="pix2pix-zerocostdl4mic",
     version="0.1.0",
     solution_creators=["DL4Mic team", "album team"],
     title="pix2pix (2D) Implementation",
