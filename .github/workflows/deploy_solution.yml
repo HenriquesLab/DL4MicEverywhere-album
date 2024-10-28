@@ -1,4 +1,4 @@
-name: Build Docker images for a configuration from ZeroCostDL4Mic that has been updated
+name: Deploy solution from a config
 
 on:
   workflow_call:
