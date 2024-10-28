@@ -56,7 +56,11 @@ if __name__ == '__main__':
     if len(sys.argv) <= 1:
         # Precondition: Both DL4MicEverywhere and DL4Miceverywhere-album need to be located in the same folder.
         # This can be done on GitHub CI with a double checkout.
-        sys.exit(main())
+        # sys.exit(main())
+
+        print('Before calling main')
+        print(os.listdir('.'))
+        main()
     elif len(sys.argv) == 3:
         # Both paths are provided
         print(f'Path to DL4MicEverywhere folder: {sys.argv[1]}')
