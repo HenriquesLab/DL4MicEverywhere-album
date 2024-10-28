@@ -133,6 +133,6 @@ if __name__ == "__main__":
         sys.exit(convert_config_to_solution(config=sys.argv[1]))
     elif len(sys.argv) == 3:
         # DL4MicEverywhere path and notebook_folder name are provided
-        sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_name=sys.argv[2]))
+        sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_folder=sys.argv[2]))
     else:
         sys.exit(1)
