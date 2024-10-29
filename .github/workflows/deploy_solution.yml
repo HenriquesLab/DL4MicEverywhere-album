@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: solution
-          path: './DL4MicEverywhere-album/*' # src/${{ inputs.config_file }}/solution.py'
+          path: './DL4MicEverywhere-album/src/${{ inputs.config_file }}/*' # /${{ inputs.config_file }}/solution.py'
 
   build_amd64:
     name: Install solution on AMD64
