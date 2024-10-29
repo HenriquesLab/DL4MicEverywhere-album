@@ -101,9 +101,8 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
     solution_file_text = solution_file_text.replace("VERSION", str(version))
 
     # Create the album folder
-    album_folder_name = notebook_folder.replace("DL4Mic", "album")
     repository_folder_path = os.sep.join(os.path.dirname(os.path.abspath(__file__)).split(os.sep)[:-1])
-    album_folder_path = os.path.join(repository_folder_path, "src", album_folder_name)
+    album_folder_path = os.path.join(repository_folder_path, "src", notebook_folder)
     print(album_folder_path)
     os.makedirs(album_folder_path, exist_ok=True)
 
@@ -112,16 +111,15 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
         solution_file.write(solution_file_text)
 
 def main(dl4miceverywhere_path=None):
-
     # Check if paths to the repositories have been provided and if not, it will be assumed that they are located in the same folder.
     if dl4miceverywhere_path is None:
         dl4miceverywhere_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..', '..', 'DL4MicEverywhere'))
 
     notebook_path = os.path.join(dl4miceverywhere_path, "notebooks", "ZeroCostDL4Mic_notebooks")
     
-    for notebook_name in os.listdir(notebook_path):
-        if os.path.isdir(os.path.join(notebook_path, notebook_name)):
-            convert_config_to_solution(DL4MicEverywhere_path=dl4miceverywhere_path, notebook_name=notebook_name)
+    for notebook_folder in os.listdir(notebook_path):
+        if os.path.isdir(os.path.join(notebook_path, notebook_folder)):
+            convert_config_to_solution(DL4MicEverywhere_path=dl4miceverywhere_path, notebook_folder=notebook_folder)
 
 if __name__ == "__main__":
     if len(sys.argv) <= 1:
