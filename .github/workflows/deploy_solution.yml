@@ -45,7 +45,7 @@ jobs:
           path: './DL4MicEverywhere-album/src/${{ inputs.config_file }}/solution.py'
 
   build_amd64:
-    name: Install solution on AMD64
+    name: Install album solution on AMD64
     runs-on: [self-hosted, dl4miceverywhere-builder]
     needs: get_arguments
 
@@ -59,7 +59,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Set up album's Miniconda environment
         uses: conda-incubator/setup-miniconda@v3
-        continue-on-error: true
         with:          
           miniforge-version: latest
           auto-activate-base: false 
@@ -82,86 +81,89 @@ jobs:
       - name: Add catalog
         run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
       - name: Install certain solution
-        continue-on-error: true
         run: album install 'temp/solution.py'
 
-  # build_arm64:
-  #   name: Build Docker image on ARM64
-  #   runs-on: [self-hosted, macOS, ARM64]
-  #   needs: get_arguments
-  #   steps:
-  #     - name: Clone DL4MicEverywhere repository
-  #       uses: actions/checkout@v4
+  build_arm64:
+    name: Install album solution on ARM64
+    runs-on: [self-hosted, macOS, ARM64]
+    needs: get_arguments
 
-  # build_only_arm64:
-  #   name: Only push ARM64 to Docker Hub 
-  #   if: ${{ always() && contains(needs.build_amd64.result, 'failure') }}
-  #   needs:
-  #     - get_arguments
-  #     - build_amd64
-  #     - build_arm64
-  #   runs-on:  [self-hosted, dl4miceverywhere-builder]
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   steps:
-  #     - name: Clone DL4MicEverywhere repository
-  #       uses: actions/checkout@v4
+    # Conda needs to use login mode
+    defaults:
+      run:
+        shell: bash -l {0}
+    
+    steps:
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+      - name: Set up album's Miniconda environment
+        uses: conda-incubator/setup-miniconda@v3
+        with:          
+          miniforge-version: latest
+          auto-activate-base: false 
+          python-version: 3.12 # Python version needs to be between 3.7 and 3.12
+          activate-environment: album
+          environment-file: .tools/actions_tools/album_enviornment.yml 
+          mamba-version: "*"
+          use-mamba: true
+          condarc-file: .tools/actions_tools/album_condarc.yml # Optional runtime configuration
+          run-post: true # Run post cleanup step
+      
+      - run: |
+          conda info
+          conda list
+      - name: Download modified solution from previous step
+        uses: actions/download-artifact@v4
+        with:
+          name: solution
+          path: temp
+      - name: Add catalog
+        run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+      - name: Install certain solution
+        run: album install 'temp/solution.py'
 
-  # build_only_amd64:
-  #   name: Only push AMD64 to Docker Hub
-  #   if: ${{ always() && contains(needs.build_arm64.result, 'failure') }}
-  #   needs:
-  #     - get_arguments
-  #     - build_amd64
-  #     - build_arm64
-  #   runs-on:  [self-hosted, dl4miceverywhere-builder]
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   steps:
-  #     - name: Clone DL4MicEverywhere repository
-  #       uses: actions/checkout@v4
-
-  # build_multi_architecture:
-  #   name: Both push AMD64 and ARM64 to Docker Hub
-  #   needs:
-  #     - get_arguments
-  #     - build_amd64
-  #     - build_arm64
-  #   runs-on:  [self-hosted, dl4miceverywhere-builder]
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   steps:
-  #     - name: Clone DL4MicEverywhere repository
-  #       uses: actions/checkout@v4
-
-  # update_config:
-  #   name: Update the versions on configurations
-  #   runs-on: [ubuntu-latest]
-  #   if: ${{ always() && ( contains(needs.build_multi_architecture.result, 'success')  || contains(needs.build_only_arm64.result, 'success') || contains(needs.build_only_amd64.result, 'success') ) }}
-  #   needs:
-  #     - build_multi_architecture
-  #     - build_only_arm64
-  #     - build_only_amd64
-  #   steps:
-  #     - name: Wait a minute
-  #       run: sleep 60
-  #     - name: Clone DL4MicEverywhere repository
-  #       uses: actions/checkout@v4
-  #     - name: Update the repository with git pull
-  #       run: git pull
-  #     - uses: actions/setup-python@v5
-  #       with:
-  #         python-version: '3.9'
-  #         cache: 'pip' # caching pip dependencies
-  #     - name: Install requirements
-  #       run: pip install -r .tools/requirements.txt
-  #     - name: Update the version of the notebook on the configuration
-  #       run: python3 .tools/python_tools/update_zerocost_version.py '${{ inputs.config_file }}' 
-  #     - name: Update the docker_tag on the configuration
-  #       run: python3 .tools/python_tools/update_configuration.py '${{ inputs.config_file }}' 
-  #     - uses: stefanzweifel/git-auto-commit-action@v5
-  #       with:
-  #         commit_message: GitHub Action - Update the notebook version on the configuration
+  update_config:
+    name: Update the versions on configurations
+    runs-on: [ubuntu-latest]
+    if: ${{ always() && ( contains(needs.build_only_arm64.result, 'success') || contains(needs.build_only_amd64.result, 'success') ) }}
+    needs:
+      - build_arm64
+      - build_amd64
+    steps:
+      - name: Wait a minute
+        run: sleep 60
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+      - name: Update the repository with git pull
+        run: git pull
+      - name: Download modified solution from previous step
+        uses: actions/download-artifact@v4
+        with:
+          name: solution
+          path: ../temp
+      - name: Copy the updated solution
+        run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
+      - name: Commit updated solution
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: GitHub Action - Update the notebook version on the configuration
+      - name: Set up album's Miniconda environment
+        uses: conda-incubator/setup-miniconda@v3
+        with:          
+          miniforge-version: latest
+          auto-activate-base: false 
+          python-version: 3.12 # Python version needs to be between 3.7 and 3.12
+          activate-environment: album
+          environment-file: .tools/actions_tools/album_enviornment.yml 
+          mamba-version: "*"
+          use-mamba: true
+          condarc-file: .tools/actions_tools/album_condarc.yml # Optional runtime configuration
+          run-post: true # Run post cleanup step
+      - run: |
+          conda info
+          conda list
+      - name: Deploy certain solution
+        run: |
+          clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+          album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
+          album deploy '../temp/solution.py' DL4MicEverywhere_album
