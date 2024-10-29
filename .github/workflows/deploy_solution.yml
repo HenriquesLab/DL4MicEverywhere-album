@@ -51,24 +51,20 @@ jobs:
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
-        with: 
-          path: DL4MicEverywhere-album
+      - name: Set up album's Miniconda environment
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          environment-file: .tools/actions_tools/album_enviornment.yml
+          mamba-version: '1.5.6-0'
+          use-mamba: true
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
           name: solution
           path: temp
-      - name: Check what is downloaded
-        run: ls temp
-      - name: Set up album's Miniconda environment
-        uses: conda-incubator/setup-miniconda@v3
-        with:
-          environment-file: .tools/actions_tools/album_enviornment.yml
       - name: Add catalog
-        working-directory: ./DL4MicEverywhere-album
         run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
       - name: Install certain solution
-        working-directory: ./DL4MicEverywhere-album
         run: album install 'temp/solution.py'
 
   # build_arm64:
