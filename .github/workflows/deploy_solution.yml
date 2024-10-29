@@ -64,10 +64,12 @@ jobs:
           auto-activate-base: false
           activate-environment: album
           environment-file: .tools/actions_tools/album_enviornment.yml 
+          mamba-version: "*"
+          use-mamba: true
           # condarc-file: .tools/actions_tools/album_condarc.yml
           # 
-          # mamba-version: "*"
-          # use-mamba: true
+          # 
+          # 
           # auto-activate-base: false
       
       - run: |
