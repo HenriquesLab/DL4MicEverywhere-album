@@ -62,6 +62,7 @@ jobs:
         with:          
           miniforge-version: latest
           auto-activate-base: false
+          python-version: 3.12
           activate-environment: album
           environment-file: .tools/actions_tools/album_enviornment.yml 
           mamba-version: "*"
