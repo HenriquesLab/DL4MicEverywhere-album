@@ -56,8 +56,9 @@ jobs:
         with:
           activate-environment: album
           environment-file: .tools/actions_tools/album_enviornment.yml 
+          miniforge-version: latest
           # condarc-file: .tools/actions_tools/album_condarc.yml
-          # miniforge-version: latest
+          # 
           # mamba-version: "*"
           # use-mamba: true
           # auto-activate-base: false
