@@ -61,17 +61,14 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:          
           miniforge-version: latest
-          auto-activate-base: false
-          python-version: 3.12
+          auto-activate-base: false 
+          python-version: 3.12 # Python version needs to be between 3.7 and 3.12
           activate-environment: album
           environment-file: .tools/actions_tools/album_enviornment.yml 
           mamba-version: "*"
           use-mamba: true
-          # condarc-file: .tools/actions_tools/album_condarc.yml
-          # 
-          # 
-          # 
-          # auto-activate-base: false
+          condarc-file: .tools/actions_tools/album_condarc.yml # Optional runtime configuration
+          run-post: true # Run post cleanup step
       
       - run: |
           conda info
