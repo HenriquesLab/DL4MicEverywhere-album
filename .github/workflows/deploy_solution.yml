@@ -58,14 +58,16 @@ jobs:
         with:
           name: solution
           path: temp
+      - name: Check what is downloaded
+        run: ls temp
       - name: Set up album's Miniconda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
-          environment-file: .tools/actions_toolsalbum_enviornment.yml
+          environment-file: .tools/actions_tools/album_enviornment.yml
       - name: Add catalog
         run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
       - name: Install certain solution
-        run: album install './src/${{ inputs.config_file }}/solution.py'
+        run: album install 'temp/src/${{ inputs.config_file }}/solution.py'
 
   # build_arm64:
   #   name: Build Docker image on ARM64
