@@ -101,7 +101,7 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
     solution_file_text = solution_file_text.replace("VERSION", str(version))
 
     # Create the album folder
-    repository_folder_path = os.sep.join(os.path.dirname(os.path.abspath(__file__)).split(os.sep)[:-1])
+    repository_folder_path = os.sep.join(os.path.dirname(os.path.abspath(__file__)).split(os.sep)[:-2])
     album_folder_path = os.path.join(repository_folder_path, "src", notebook_folder)
     print(album_folder_path)
     os.makedirs(album_folder_path, exist_ok=True)
