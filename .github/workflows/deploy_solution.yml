@@ -54,10 +54,17 @@ jobs:
       - name: Set up album's Miniconda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
-          environment-file: .tools/actions_tools/album_enviornment.yml
-          miniforge-version: latest
+          activate-environment: album
+          environment-file: .tools/actions_tools/album_enviornment.yml 
+          condarc-file: .tools/actions_tools/album_condarc.yml
+          # miniforge-version: latest
           mamba-version: "*"
           use-mamba: true
+          auto-activate-base: false
+      
+      - run: |
+          conda info
+          conda list
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
