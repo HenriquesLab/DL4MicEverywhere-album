@@ -49,24 +49,19 @@ jobs:
     runs-on: [self-hosted, dl4miceverywhere-builder]
     needs: get_arguments
     steps:
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+        with: 
+          path: DL4MicEverywhere-album
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
           name: solution
-      - name: Configure album using micromamba
-        uses: mamba-org/setup-micromamba@v1
+          path: temp
+      - name: Set up album's Miniconda environment
+        uses: conda-incubator/setup-miniconda@v3
         with:
-          micromamba-version: '1.5.6-0' # any version from https://github.com/mamba-org/micromamba-releases
-          init-shell: >-
-            bash
-            powershell
-          condarc: |
-            channels:
-              - conda-forge
-          environment-name: album
-          create-args: album
-          cache-environment: true
-          post-cleanup: 'all'
+          environment-file: .tools/actions_toolsalbum_enviornment.yml
       - name: Add catalog
         run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
       - name: Install certain solution

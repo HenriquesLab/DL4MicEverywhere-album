@@ -1,0 +1,5 @@
+name: album
+channels:
+- conda-forge
+dependencies:
+- album
