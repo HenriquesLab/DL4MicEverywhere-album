@@ -34,15 +34,21 @@ jobs:
       - name: Update the version of the notebook on the configuration
         working-directory: ./DL4MicEverywhere-album
         run: python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}'
-  
+      - name: Upload modified solution
+        uses: actions/upload-artifact@v4
+        with:
+          name: solution
+          path: './DL4MicEverywhere-album/src/${{ inputs.config_file }}/solution.py'
 
   build_amd64:
     name: Install solution on AMD64
     runs-on: [self-hosted, dl4miceverywhere-builder]
     needs: get_arguments
     steps:
-      - name: Clone DL4MicEverywhere-album repository
-        uses: actions/checkout@v4
+      - name: Download modified solution from previous step
+        uses: actions/download-artifact@v4
+        with:
+          name: solution
       - name: Configure album using micromamba
         uses: mamba-org/setup-micromamba@v1
         with:
