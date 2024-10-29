@@ -32,8 +32,11 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
     python_version = config_data["config"]["dl4miceverywhere"]["python_version"]
     cuda_toolkit_version = config_data["config"]["dl4miceverywhere"]["cuda_version"]
     cudnn_version = config_data["config"]["dl4miceverywhere"]["cudnn_version"]
+    
     # Fix the cuDNN version to fit the conda library
     cudnn_version = re.search(r"\d+\.\d+\.\d+", cudnn_version).group()
+
+    cudnn_version = "8.9.2"
 
     # Others need to be created
     name = notebook_name.lower().replace(".ipynb", "").replace("_", "-")
