@@ -78,10 +78,13 @@ jobs:
         with:
           name: solution
           path: temp
-      - name: Add catalog
-        run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
-      - name: Install certain solution
-        run: album install 'temp/solution.py'
+      - name: Test the installation of certain solution
+        run: |
+          album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+          album unnstall 'temp/solution.py'
+          album install 'temp/solution.py'
+
+  
 
   build_arm64:
     name: Install album solution on ARM64
@@ -117,15 +120,18 @@ jobs:
         with:
           name: solution
           path: temp
-      - name: Add catalog
-        run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
-      - name: Install certain solution
-        run: album install 'temp/solution.py'
+      - name: Test the installation of certain solution
+        run: |
+          album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+          album install 'temp/solution.py'
+      # If the solution is correctly installed, then remove it, if not it will give an error and will not get to this step
+      - name: Post step - uninstall solution 
+        run: album uninstall 'temp/solution.py'
 
   update_config:
     name: Update the versions on configurations
     runs-on: [ubuntu-latest]
-    if: ${{ always() && ( contains(needs.build_only_arm64.result, 'success') || contains(needs.build_only_amd64.result, 'success') ) }}
+    if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
     needs:
       - build_arm64
       - build_amd64
