@@ -65,9 +65,11 @@ jobs:
         with:
           environment-file: .tools/actions_tools/album_enviornment.yml
       - name: Add catalog
+        working-directory: ./DL4MicEverywhere-album
         run: album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
       - name: Install certain solution
-        run: album install 'temp/src/${{ inputs.config_file }}/solution.py'
+        working-directory: ./DL4MicEverywhere-album
+        run: album install 'temp/solution.py'
 
   # build_arm64:
   #   name: Build Docker image on ARM64
