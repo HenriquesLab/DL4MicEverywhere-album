@@ -48,15 +48,22 @@ jobs:
     name: Install solution on AMD64
     runs-on: [self-hosted, dl4miceverywhere-builder]
     needs: get_arguments
+
+    # Conda needs to use login mode
+    defaults:
+      run:
+        shell: bash -l {0}
+
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
       - name: Set up album's Miniconda environment
         uses: conda-incubator/setup-miniconda@v3
-        with:
+        with:          
+          miniforge-version: latest
+          auto-activate-base: false
           activate-environment: album
           environment-file: .tools/actions_tools/album_enviornment.yml 
-          miniforge-version: latest
           # condarc-file: .tools/actions_tools/album_condarc.yml
           # 
           # mamba-version: "*"
