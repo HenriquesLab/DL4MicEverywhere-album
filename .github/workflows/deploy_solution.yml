@@ -55,7 +55,8 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           environment-file: .tools/actions_tools/album_enviornment.yml
-          mamba-version: '1.5.6-0'
+          miniforge-version: latest
+          mamba-version: "*"
           use-mamba: true
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
