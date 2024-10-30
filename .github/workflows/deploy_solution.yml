@@ -135,6 +135,12 @@ jobs:
     needs:
       - build_arm64
       - build_amd64
+
+    # Conda needs to use login mode
+    defaults:
+      run:
+        shell: bash -l {0}
+        
     steps:
       - name: Wait a minute
         run: sleep 60
