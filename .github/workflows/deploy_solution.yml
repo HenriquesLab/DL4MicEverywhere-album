@@ -78,11 +78,12 @@ jobs:
         with:
           name: solution
           path: temp
+      # To be safe, remove any possible solution with the same
+      - name: Uninstall the solution to be safe
+        run: album uninstall 'temp/solution.py'
+        continue-on-error: true
       - name: Test the installation of certain solution
-        run: |
-          album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
-          album unnstall 'temp/solution.py'
-          album install 'temp/solution.py'
+        run: album install 'temp/solution.py'
 
   
 
@@ -119,14 +120,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: solution
-          path: temp
-      - name: Test the installation of certain solution
-        run: |
-          album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
-          album install 'temp/solution.py'
-      # If the solution is correctly installed, then remove it, if not it will give an error and will not get to this step
-      - name: Post step - uninstall solution 
+          path: temp    
+      # To be safe, remove any possible solution with the same
+      - name: Uninstall the solution to be safe
         run: album uninstall 'temp/solution.py'
+        continue-on-error: true
+      - name: Test the installation of certain solution
+        run: album install 'temp/solution.py'
 
   update_config:
     name: Update the versions on configurations
@@ -170,6 +170,6 @@ jobs:
           conda list
       - name: Deploy certain solution
         run: |
-          clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
           album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
           album deploy '../temp/solution.py' DL4MicEverywhere_album
