@@ -184,8 +184,8 @@ jobs:
       # We don't run it here because multiple runs give ERRORs
       - name: Clone catalog
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name ${{ vars.GITHUB_ACTOR }}
+          git config --global user.name ${{ secrets.USERNAME }}
+          git config --global user.email ${{ secrets.EMAIL }}
           album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
