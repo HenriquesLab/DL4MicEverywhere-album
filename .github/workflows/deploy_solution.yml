@@ -146,19 +146,6 @@ jobs:
         run: sleep 60
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
-      - name: Update the repository with git pull
-        run: git pull
-      - name: Download modified solution from previous step
-        uses: actions/download-artifact@v4
-        with:
-          name: solution
-          path: ../temp
-      - name: Copy the updated solution
-        run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
-      - name: Commit updated solution
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: GitHub Action - Update the notebook version on the configuration
       - name: Set up album's Miniconda environment
         uses: conda-incubator/setup-miniconda@v3
         with:          
@@ -174,10 +161,31 @@ jobs:
       - run: |
           conda info
           conda list
+      - name: Update the repository with git pull
+        run: git pull
+      - name: Download modified solution from previous step
+        uses: actions/download-artifact@v4
+        with:
+          name: solution
+          path: ../temp
+      - name: Copy the updated solution
+        run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
+      - name: Update solution log
+        run: |
+          .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
+          .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
+      - name: Commit updated solution
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: GitHub Action - Update the notebook version on the configuration
+
+      # The local runner needs to have the catalog cloned, so run:
+      # abum clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
+      # We don't run it here because multiple runs give ERRORs
       - name: Deploy certain solution
         run: |
-          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album_${{ inputs.config_file }}
+          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
           album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
-          album deploy '../temp/solution.py' DL4MicEverywhere_album_${{ inputs.config_file }}
+          album deploy '../temp/solution.py' DL4MicEverywhere_album
       - name: Post - Deploy certain solution
-        run: album remove-catalog DL4MicEverywhere_album_${{ inputs.config_file }}
+        run: album remove-catalog DL4MicEverywhere_album

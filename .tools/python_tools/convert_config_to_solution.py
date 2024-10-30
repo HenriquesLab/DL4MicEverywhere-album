@@ -18,7 +18,7 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
     online_config_path = f"https://github.com/HenriquesLab/DL4MicEverywhere/blob/main/notebooks/ZeroCostDL4Mic_notebooks/{notebook_folder}/configuration.yaml"
 
     # Load the configuration
-    with open(config_path, "r") as f:
+    with open(config_path, 'r', encoding='utf8') as f:
         config_data = yaml.safe_load(f)
 
     # Extract the values from the configuration file
