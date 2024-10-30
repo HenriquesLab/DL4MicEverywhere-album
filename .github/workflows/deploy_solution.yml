@@ -140,7 +140,7 @@ jobs:
     defaults:
       run:
         shell: bash -l {0}
-        
+
     steps:
       - name: Wait a minute
         run: sleep 60
@@ -176,6 +176,8 @@ jobs:
           conda list
       - name: Deploy certain solution
         run: |
-          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
           album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
           album deploy '../temp/solution.py' DL4MicEverywhere_album
+      - name: Post - Deploy certain solution
+        run: album remove-catalog DL4MicEverywhere_album
