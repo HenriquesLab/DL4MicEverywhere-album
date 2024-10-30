@@ -182,9 +182,14 @@ jobs:
       # The local runner needs to have the catalog cloned, so run:
       # abum clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
       # We don't run it here because multiple runs give ERRORs
-      - name: Deploy certain solution
+      - name: Clone catalog
+        run: |
+          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
+      - name: Add catalog
         run: |
           album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+      - name: Deploy certain solution
+        run: |
           album deploy '../temp/solution.py' DL4MicEverywhere_album
       - name: Post - Deploy certain solution
         run: album remove-catalog DL4MicEverywhere_album
