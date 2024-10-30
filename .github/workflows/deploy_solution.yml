@@ -135,6 +135,8 @@ jobs:
     needs:
       - build_arm64
       - build_amd64
+    permissions:
+      contents: write
 
     # Conda needs to use login mode
     defaults:
@@ -142,8 +144,6 @@ jobs:
         shell: bash -l {0}
 
     steps:
-      - name: Wait a minute
-        run: sleep 60
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
       - name: Set up album's Miniconda environment
