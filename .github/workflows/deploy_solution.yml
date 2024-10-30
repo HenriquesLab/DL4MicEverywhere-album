@@ -172,8 +172,8 @@ jobs:
         run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
       - name: Update solution log
         run: |
-          .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
-          .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
+          python .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
+          python .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
       - name: Commit updated solution
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
