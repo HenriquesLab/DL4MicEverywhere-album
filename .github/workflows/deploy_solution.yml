@@ -184,7 +184,6 @@ jobs:
       # We don't run it here because multiple runs give ERRORs
       - name: Deploy certain solution
         run: |
-          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
           album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
           album deploy '../temp/solution.py' DL4MicEverywhere_album
       - name: Post - Deploy certain solution
