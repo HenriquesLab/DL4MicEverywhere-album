@@ -1,0 +1,7 @@
+name: album
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - album
+  - python=3.12
