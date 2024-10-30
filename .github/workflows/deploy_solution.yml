@@ -183,6 +183,7 @@ jobs:
       # abum clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
       # We don't run it here because multiple runs give ERRORs
       - name: Clone catalog
+        run: |
           album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
       - name: Add catalog
         run: |
