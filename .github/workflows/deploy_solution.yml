@@ -41,7 +41,7 @@ jobs:
       - name: Upload modified solution
         uses: actions/upload-artifact@v4
         with:
-          name: solution
+          name: 'solution_${{ inputs.config_file }}'
           path: './DL4MicEverywhere-album/src/${{ inputs.config_file }}/solution.py'
 
   build_amd64:
@@ -76,7 +76,7 @@ jobs:
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
-          name: solution
+          name: 'solution_${{ inputs.config_file }}'
           path: temp
       # To be safe, remove any possible solution with the same
       - name: Uninstall the solution to be safe
@@ -119,7 +119,7 @@ jobs:
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
-          name: solution
+          name: 'solution_${{ inputs.config_file }}'
           path: temp    
       # To be safe, remove any possible solution with the same
       - name: Uninstall the solution to be safe
@@ -166,7 +166,7 @@ jobs:
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
-          name: solution
+          name: 'solution_${{ inputs.config_file }}'
           path: ../temp
       - name: Copy the updated solution
         run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
