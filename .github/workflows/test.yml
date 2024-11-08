@@ -1,0 +1,53 @@
+name: Test album clone
+
+on:
+  workflow_dispatch:
+    inputs:
+      config_file: # the variable you can use in place of a matrix
+        type: string
+
+jobs:
+  deploy_solution:
+    name: Clone album
+    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
+    permissions:
+      contents: write
+
+    # Conda needs to use login mode
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+      - name: Set up album's Miniconda environment
+        uses: conda-incubator/setup-miniconda@v3
+        with:          
+          miniforge-version: latest
+          auto-activate-base: false 
+          python-version: 3.12 # Python version needs to be between 3.7 and 3.12
+          activate-environment: album
+          environment-file: .tools/actions_tools/album_enviornment.yml 
+          mamba-version: "*"
+          use-mamba: true
+          condarc-file: .tools/actions_tools/album_condarc.yml # Optional runtime configuration
+          run-post: true # Run post cleanup step
+      - run: |
+          conda info
+          conda list
+      # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+      - name: Setup git config
+        run: |
+          git config user.name ${{ secrets.USERNAME }}
+          git config user.email ${{ secrets.EMAIL }}
+
+      - name: Print username
+        run: git config user.name
+
+      # The local runner needs to have the catalog cloned, so run:
+      # abum clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
+      # We don't run it here because multiple runs give ERRORs
+      - name: Clone catalog
+        run: |
+            album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album --log DEBUG
