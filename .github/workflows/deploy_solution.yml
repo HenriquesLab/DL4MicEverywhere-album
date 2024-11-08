@@ -179,11 +179,14 @@ jobs:
         with:
           commit_message: GitHub Action - Update the notebook version on the configuration
 
-        # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
+      # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
       - name: Setup git config
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+          git config user.name ${{ secrets.USERNAME }}
+          git config user.email ${{ secrets.EMAIL }}
+
+      - name: Print username
+        run: git config user.name
 
       # The local runner needs to have the catalog cloned, so run:
       # abum clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
