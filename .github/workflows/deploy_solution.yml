@@ -190,7 +190,7 @@ jobs:
       # We don't run it here because multiple runs give ERRORs
       - name: Clone catalog
         run: |
-          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
+          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album --log DEBUG
       - name: Add catalog
         run: |
           album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
