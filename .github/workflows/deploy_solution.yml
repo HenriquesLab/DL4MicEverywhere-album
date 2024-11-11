@@ -194,6 +194,7 @@ jobs:
       - name: Clone catalog
         run: |
           album clone template:catalog git@github.com:HenriquesLab/DL4MicEverywhere-album.git DL4MicEverywhere_album --log DEBUG
+        continue-on-error: true # To avoid "RuntimeError: Diff shows no changes to the repository. Aborting..."
       - name: Add catalog
         run: |
           album add-catalog git@github.com:HenriquesLab/DL4MicEverywhere-album.git
