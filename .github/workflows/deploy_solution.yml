@@ -132,6 +132,48 @@ jobs:
       - name: Test the installation of certain solution
         run: album install 'temp/solution.py'
 
+  save_building:
+    name: Update the versions on configurations
+    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
+    if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
+    needs:
+      - build_arm64
+      - build_amd64
+    permissions:
+      contents: write
+
+    # Conda needs to use login mode
+    defaults:
+      run:
+        shell: bash -l {0}
+
+    steps:
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          # cache: 'pip' # caching pip dependencies
+      - name: Install requirements
+        run: pip install -r .tools/requirements.txt
+      - name: Update the repository with git pull
+        run: git pull
+      - name: Download modified solution from previous step
+        uses: actions/download-artifact@v4
+        with:
+          name: 'solution_${{ inputs.config_file }}'
+          path: ../temp
+      - name: Copy the updated solution
+        run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
+      - name: Update solution log
+        run: |
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
+      - name: Commit updated solution
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: GitHub Action - Update the notebook version on the configuration
+
   deploy_solution:
     name: Update the versions on configurations
     runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
@@ -162,33 +204,16 @@ jobs:
           use-mamba: true
           condarc-file: .tools/actions_utils/album_condarc.yml # Optional runtime configuration
           run-post: true # Run post cleanup step
-      - run: |
-          conda info
-          conda list
-      - name: Update the repository with git pull
-        run: git pull
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
           name: 'solution_${{ inputs.config_file }}'
           path: ../temp
-      - name: Copy the updated solution
-        run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
-      - name: Update solution log
-        run: |
-          python .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
-          python .tools/python_tools/add_solution_log.py ${{ inputs.config_file }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
-      - name: Commit updated solution
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: GitHub Action - Update the notebook version on the configuration
-
       # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
       - name: Setup git config
         run: |
           git config --global user.name ${{ secrets.USERNAME }}
           git config --global user.email ${{ secrets.EMAIL }}
-
       - name: Setup SSH with a passphrase
         env:
             SSH_PASSPHRASE: ${{secrets.SSH_PASSPHRASE}}
@@ -197,7 +222,6 @@ jobs:
             ssh-agent -a $SSH_AUTH_SOCK > /dev/null
             echo "echo $SSH_PASSPHRASE" > ~/.ssh_askpass && chmod +x ~/.ssh_askpass
             echo "$SSH_PRIVATE_KEY" | tr -d '\r' | DISPLAY=None SSH_ASKPASS=~/.ssh_askpass ssh-add - >/dev/null
-  
       # The local runner needs to have the catalog cloned, so run:
       # abum clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
       # We don't run it here because multiple runs give ERRORs
