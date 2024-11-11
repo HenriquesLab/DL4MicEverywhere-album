@@ -1,5 +1,0 @@
-StarDist_2D_DL4Mic:
-  amd64: true
-U-Net_2D_Multilabel_DL4Mic:
-  amd64: true
-test: true
