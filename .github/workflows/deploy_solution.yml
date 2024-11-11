@@ -11,6 +11,10 @@ on:
       config_file: # the variable you can use in place of a matrix
         type: string
 
+env:
+  # Use the same ssh-agent socket value across all jobs
+  SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+  
 jobs:
   get_arguments:
     name: Extract arguments from configuration
