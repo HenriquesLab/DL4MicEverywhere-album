@@ -182,21 +182,21 @@ jobs:
       # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
       - name: Setup git config
         run: |
-          git config user.name ${{ secrets.USERNAME }}
-          git config user.email ${{ secrets.EMAIL }}
+          git config --global user.name ${{ secrets.USERNAME }}
+          git config --global user.email ${{ secrets.EMAIL }}
 
       - name: Print username
-        run: git config user.name
+        run: git config --global user.name
 
       # The local runner needs to have the catalog cloned, so run:
       # abum clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album
       # We don't run it here because multiple runs give ERRORs
       - name: Clone catalog
         run: |
-          album clone template:catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/ DL4MicEverywhere_album --log DEBUG
+          album clone template:catalog git@github.com:HenriquesLab/DL4MicEverywhere-album.git DL4MicEverywhere_album --log DEBUG
       - name: Add catalog
         run: |
-          album add-catalog https://github.com/HenriquesLab/DL4MicEverywhere-album/
+          album add-catalog git@github.com:HenriquesLab/DL4MicEverywhere-album.git
       - name: Deploy certain solution
         run: |
           album deploy '../temp/solution.py' DL4MicEverywhere_album
