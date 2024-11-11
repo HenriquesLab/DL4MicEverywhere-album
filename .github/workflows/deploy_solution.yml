@@ -132,21 +132,47 @@ jobs:
       - name: Test the installation of certain solution
         run: album install 'temp/solution.py'
 
-  save_building:
-    name: Update the versions on configurations
-    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
+
+  save_failure_building:
+    name: Update the solution source and log the result
+    runs-on: [self-hosted, dl4miceverywhere-builder]
+    if: ${{ always() && ( contains(needs.build_arm64.result, 'failure') && contains(needs.build_amd64.result, 'failure') ) }}
+
+    needs:
+      - build_arm64
+      - build_amd64
+    permissions:
+      contents: write
+    steps:
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+          # cache: 'pip' # caching pip dependencies
+      - name: Install requirements
+        run: pip install -r .tools/requirements.txt
+      - name: Update the repository with git pull
+        run: git pull
+      # In this case, the solution will not be copied to the repository
+      - name: Update solution log
+        run: |
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} arm64 false
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} amd64 false
+      - name: Commit updated solution
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: GitHub Action - Update the notebook version on the configuration
+
+  save_success_building:
+    name: Update the solution source and log the result
+    runs-on: [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
     needs:
       - build_arm64
       - build_amd64
     permissions:
       contents: write
-
-    # Conda needs to use login mode
-    defaults:
-      run:
-        shell: bash -l {0}
-
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
@@ -175,7 +201,7 @@ jobs:
           commit_message: GitHub Action - Update the notebook version on the configuration
 
   deploy_solution:
-    name: Update the versions on configurations
+    name: Deploy the solution to the album catalog
     runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
     needs:

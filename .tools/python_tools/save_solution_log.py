@@ -4,13 +4,24 @@ import os
 
 def add_log(solution_name, architecture, pass_flag):
 
+    # Path to the log file
     log_file = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..','solution_log.yml'))
 
     # Load the solution log file
     with open(log_file, 'r', encoding='utf8') as f:
         config_data = yaml.safe_load(f)
-        
-    config_data[solution_name] = {architecture: bool(pass_flag)}
+
+    # Check if the file is empty, if so override assigning a dictionary
+    if config_data is None:
+        config_data = {}
+    
+    # Check if the solution name is already stored
+    if solution_name in config_data.keys(): 
+        # If so, add or replace the architecture and its status
+        config_data[solution_name][architecture] = bool(pass_flag)
+    else:
+        # Otherwise, initialize it
+        config_data[solution_name] = {architecture: bool(pass_flag)}
 
     # Write the solution log file
     with open(log_file, 'w', encoding='utf8') as new_f:
