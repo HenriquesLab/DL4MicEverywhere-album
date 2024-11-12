@@ -15,9 +15,9 @@ jobs:
         - name: Get the list of all the notebooks
           id: all_notebooks
           run: |
-            output=$(for dir in $(ls -d ./src/*); do basename $dir; done)
+            output=$(for dir in $(ls -d ./src/*); do basename $dir; done | tr "\n" " ")
             echo "$output"
-            echo "value=$output" >> $GITHUB_OUTPUT
+            echo "value=${output}" >> $GITHUB_OUTPUT
         - if: ${{ steps.all_notebooks.outputs.value != '' }}
           name: List and extract all notebook with new version
           id: create_json
