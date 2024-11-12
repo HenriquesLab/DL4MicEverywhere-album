@@ -1,9 +1,6 @@
-name: Check and build updated DL4MicEverywhere
+name: Check and build ALL DL4MicEverywhere
 
 on:
-  # At 01:30 AM of every day
-  schedule:
-    - cron: "30 1 * * *"
   workflow_dispatch:
 
 jobs:
@@ -15,28 +12,14 @@ jobs:
       steps:
         - name: Clone actual DL4MicEverywhere-album repository
           uses: actions/checkout@v4
-          with: 
-            path: DL4MicEverywhere-album
-        - name: Clone DL4MicEverywhere repository
-          uses: actions/checkout@v4
-          with:
-            repository: HenriquesLab/DL4MicEverywhere
-            path: DL4MicEverywhere
-        - uses: actions/setup-python@v5
-          with:
-            python-version: '3.9'
-            # cache: 'pip' # caching pip dependencies
-        - name: Install requirements
+        - name: Get the list of all the notebooks
           working-directory: ./DL4MicEverywhere-album
-          run: pip install -r .tools/requirements.txt
-        - name: Check for updates on the notebooks
-          working-directory: ./DL4MicEverywhere-album
-          id: updated_notebooks
+          id: all_notebooks
           run: |
-            output=$(python3 .tools/python_tools/check_dl4mic_versions.py)
+            output=$(for dir in $(ls -d ./src/*); do basename $dir; done)
             echo "$output"
             echo "value=$output" >> $GITHUB_OUTPUT
-        - if: ${{ steps.updated_notebooks.outputs.value != '' }}
+        - if: ${{ steps.all_notebooks.outputs.value != '' }}
           name: List and extract all notebook with new version
           id: create_json
           run: |
@@ -44,7 +27,7 @@ jobs:
             files_json="{\"include\":[{\"notebook\":\""
             echo "$files_json"
             first=true
-            for file in ${{ steps.updated_notebooks.outputs.value }}; do
+            for file in ${{ steps.all_notebooks.outputs.value }}; do
               echo "$file was changed"
               if [ "$first" = true ]; then
                 files_json+=$file

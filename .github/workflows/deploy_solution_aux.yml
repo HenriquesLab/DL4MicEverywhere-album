@@ -89,8 +89,6 @@ jobs:
       - name: Test the installation of certain solution
         run: album install 'temp/solution.py'
 
-  
-
   build_arm64:
     name: Install album solution on ARM64
     runs-on: [self-hosted, macOS, ARM64]
@@ -131,7 +129,6 @@ jobs:
         continue-on-error: true
       - name: Test the installation of certain solution
         run: album install 'temp/solution.py'
-
 
   save_failure_building:
     name: Update the solution source and log the result
