@@ -15,13 +15,21 @@ def add_log(solution_name, architecture, pass_flag):
     if config_data is None:
         config_data = {}
     
+    # Correct the flag, from the CI will came as true or false, they need to be True and False
+    if pass_flag == 'true':
+        final_pass_flag = True
+    elif pass_flag == 'false':
+        final_pass_flag = False
+    else:
+        raise ValueError("The indicated flag needs to be true or false.")
+
     # Check if the solution name is already stored
     if solution_name in config_data.keys(): 
         # If so, add or replace the architecture and its status
-        config_data[solution_name][architecture] = bool(pass_flag)
+        config_data[solution_name][architecture] = final_pass_flag
     else:
         # Otherwise, initialize it
-        config_data[solution_name] = {architecture: bool(pass_flag)}
+        config_data[solution_name] = {architecture: final_pass_flag}
 
     # Write the solution log file
     with open(log_file, 'w', encoding='utf8') as new_f:
