@@ -22,9 +22,9 @@ def install():
 
     # Clone the DL4MicEverywhere repository
     clone_url = "https://github.com/HenriquesLab/DL4MicEverywhere"
-    repo_path = get_app_path().joinpath("DL4MicEverywhere")
-    Repo.clone_from(clone_url, repo_path)
-    assert (repo_path.exists())
+    repository_path = get_app_path().joinpath("DL4MicEverywhere")
+    Repo.clone_from(clone_url, repository_path)
+    assert (repository_path.exists())
 
     # URL of the notebook you want to download
     notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/CycleGAN_ZeroCostDL4Mic.ipynb"
@@ -47,7 +47,7 @@ def install():
     python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "CycleGAN_ZeroCostDL4Mic.ipynb", "-s"]
     python_command += section_to_remove
 
-    subprocess.run(python_command, cwd=to)
+    subprocess.run(python_command, cwd=repository_path)
     subprocess.run(["mv", get_app_path().joinpath("colabless_CycleGAN_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("CycleGAN_ZeroCostDL4Mic.ipynb")])
 
     # Remove the cloned DL4MicEverywhere repository
@@ -55,7 +55,7 @@ def install():
         os.system(f'rmdir /s /q "{to}"')
     else:
         # rmtree has no permission to do this on Windows
-        shutil.rmtree(to) 
+        shutil.rmtree(repository_path) 
 
 def run():
     from album.runner.api import get_args, get_app_path
@@ -95,7 +95,7 @@ if gpu_access:
     dependencies = """
 - python=3.8
 - cudatoolkit=11.8.0
-- cudnn=8.6.0
+- cudnn=8.9.2
 - pip
 - pkg-config
 """
@@ -143,13 +143,15 @@ dependencies:
     - tqdm==4.65.0
     - visdom>=0.1.8.8, < 0.2.5
     - wandb>= 0.15.0, < 0.16
+    - nbformat==5.9.2
+    - jupyterlab==3.4.0
 """
 
 setup(
     group="DL4MicEverywhere",
     name="cyclegan-zerocostdl4mic",
     version="1.13.3",
-    solution_creators=["DL4Mic team", "album team"],
+    solution_creators=["DL4MicEverywhere team", "album team"],
     title="cyclegan-zerocostdl4mic implementation.",
     description="Unpaired image-to-image translation of 2D images. CycleGAN is a method that can capture the characteristics of one image domain and figure out how these characteristics could be translated into another image domain, all in the absence of any paired training examples (ie transform a horse into zebra or apples into oranges). While CycleGAN can potentially be used for any type of image-to-image translation, we illustrate that it can be used to predict what a fluorescent label would look like when imaged using another imaging modalities. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
