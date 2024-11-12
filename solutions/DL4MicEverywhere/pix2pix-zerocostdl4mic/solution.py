@@ -95,7 +95,7 @@ if gpu_access:
     dependencies = """
 - python=3.8
 - cudatoolkit=11.8.0
-- cudnn=8.6.0
+- cudnn=8.9.2
 - pip
 - pkg-config
 """
@@ -152,7 +152,7 @@ setup(
     group="DL4MicEverywhere",
     name="pix2pix-zerocostdl4mic",
     version="1.17.3",
-    solution_creators=["DL4Mic team", "album team"],
+    solution_creators=["DL4MicEverywhere team", "album team"],
     title="pix2pix-zerocostdl4mic implementation.",
     description="Paired image-to-image translation of 2D images. pix2pix is a deep-learning method that can be used to translate one type of images into another. While pix2pix can potentially be used for any type of image-to-image translation, we demonstrate that it can be used to predict a fluorescent image from another fluorescent image. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
