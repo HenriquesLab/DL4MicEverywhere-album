@@ -13,7 +13,6 @@ jobs:
         - name: Clone actual DL4MicEverywhere-album repository
           uses: actions/checkout@v4
         - name: Get the list of all the notebooks
-          working-directory: ./DL4MicEverywhere-album
           id: all_notebooks
           run: |
             output=$(for dir in $(ls -d ./src/*); do basename $dir; done)
