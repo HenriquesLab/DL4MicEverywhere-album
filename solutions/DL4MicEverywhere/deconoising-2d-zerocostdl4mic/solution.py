@@ -22,9 +22,9 @@ def install():
 
     # Clone the DL4MicEverywhere repository
     clone_url = "https://github.com/HenriquesLab/DL4MicEverywhere"
-    repo_path = get_app_path().joinpath("DL4MicEverywhere")
-    Repo.clone_from(clone_url, repo_path)
-    assert (repo_path.exists())
+    repository_path = get_app_path().joinpath("DL4MicEverywhere")
+    Repo.clone_from(clone_url, repository_path)
+    assert (repository_path.exists())
 
     # URL of the notebook you want to download
     notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/DecoNoising_2D_ZeroCostDL4Mic.ipynb"
@@ -47,7 +47,7 @@ def install():
     python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "DecoNoising_2D_ZeroCostDL4Mic.ipynb", "-s"]
     python_command += section_to_remove
 
-    subprocess.run(python_command, cwd=to)
+    subprocess.run(python_command, cwd=repository_path)
     subprocess.run(["mv", get_app_path().joinpath("colabless_DecoNoising_2D_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("DecoNoising_2D_ZeroCostDL4Mic.ipynb")])
 
     # Remove the cloned DL4MicEverywhere repository
@@ -55,7 +55,7 @@ def install():
         os.system(f'rmdir /s /q "{to}"')
     else:
         # rmtree has no permission to do this on Windows
-        shutil.rmtree(to) 
+        shutil.rmtree(repository_path) 
 
 def run():
     from album.runner.api import get_args, get_app_path
@@ -95,7 +95,7 @@ if gpu_access:
     dependencies = """
 - python=3.9
 - cudatoolkit=11.8.0
-- cudnn=8.6.0
+- cudnn=8.9.2
 - pip
 - pkg-config
 """
@@ -134,13 +134,16 @@ dependencies:
     - torch==2.0.0
     - torchvision==0.15.1
     - wget==3.2
+    - nbformat==5.9.2
+    - ipywidgets==8.1.0
+    - jupyterlab==3.4.0
 """
 
 setup(
     group="DL4MicEverywhere",
     name="deconoising-2d-zerocostdl4mic",
     version="1.14.1",
-    solution_creators=["DL4Mic team", "album team"],
+    solution_creators=["DL4MicEverywhere team", "album team"],
     title="deconoising-2d-zerocostdl4mic implementation.",
     description="Self-supervised denoising of 2D images. DecoNoising 2D is deep-learning method that can be used to denoise 2D microscopy images. By running this notebook, you can train your own network and denoise your images. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
