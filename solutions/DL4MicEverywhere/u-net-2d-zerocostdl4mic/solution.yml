@@ -4,7 +4,7 @@ args:
   description: What is your working path?
   name: path
   type: string
-changelog: ../CHANGELOG.md
+changelog: null
 cite:
 - doi: https://doi.org/10.1038/s41467-021-22518-0
   text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
@@ -24,7 +24,7 @@ documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/mas
 group: DL4MicEverywhere
 name: u-net-2d-zerocostdl4mic
 solution_creators:
-- DL4Mic team
+- DL4MicEverywhere team
 - album team
 tags:
 - colab
@@ -34,6 +34,6 @@ tags:
 - ZeroCostDL4Mic
 - 2D
 - dl4miceverywhere
-timestamp: '2024-10-15T17:50:48.373671'
+timestamp: '2024-11-12T17:18:55.540250'
 title: u-net-2d-zerocostdl4mic implementation.
 version: 2.2.1
