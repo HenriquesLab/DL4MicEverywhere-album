@@ -3,4 +3,4 @@ Diffusion_SMLM_DL4Mic:
   arm64: false
 U-Net_2D_Multilabel_DL4Mic:
   amd64: true
-  arm64: true
+  arm64: false
