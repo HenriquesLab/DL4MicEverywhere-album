@@ -22,9 +22,9 @@ def install():
 
     # Clone the DL4MicEverywhere repository
     clone_url = "https://github.com/HenriquesLab/DL4MicEverywhere"
-    repo_path = get_app_path().joinpath("DL4MicEverywhere")
-    Repo.clone_from(clone_url, repo_path)
-    assert (repo_path.exists())
+    repository_path = get_app_path().joinpath("DL4MicEverywhere")
+    Repo.clone_from(clone_url, repository_path)
+    assert (repository_path.exists())
 
     # URL of the notebook you want to download
     notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/Deep-STORM_2D_ZeroCostDL4Mic.ipynb"
@@ -47,7 +47,7 @@ def install():
     python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "Deep-STORM_2D_ZeroCostDL4Mic.ipynb", "-s"]
     python_command += section_to_remove
 
-    subprocess.run(python_command, cwd=to)
+    subprocess.run(python_command, cwd=repository_path)
     subprocess.run(["mv", get_app_path().joinpath("colabless_Deep-STORM_2D_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("Deep-STORM_2D_ZeroCostDL4Mic.ipynb")])
 
     # Remove the cloned DL4MicEverywhere repository
@@ -55,7 +55,7 @@ def install():
         os.system(f'rmdir /s /q "{to}"')
     else:
         # rmtree has no permission to do this on Windows
-        shutil.rmtree(to) 
+        shutil.rmtree(repository_path) 
 
 def run():
     from album.runner.api import get_args, get_app_path
@@ -95,7 +95,7 @@ if gpu_access:
     dependencies = """
 - python=3.10
 - cudatoolkit=11.8.0
-- cudnn=8.6.0
+- cudnn=8.9.2
 - pip
 - pkg-config
 """
@@ -134,13 +134,15 @@ dependencies:
     - scipy==1.10.1
     - tensorflow==2.12.0
     - tqdm==4.65.0
+    - nbformat==5.9.2
+    - jupyterlab==3.4.0
 """
 
 setup(
     group="DL4MicEverywhere",
     name="deep-storm-2d-zerocostdl4mic",
     version="1.13.3",
-    solution_creators=["DL4Mic team", "album team"],
+    solution_creators=["DL4MicEverywhere team", "album team"],
     title="deep-storm-2d-zerocostdl4mic implementation.",
     description="Single Molecule Localization Microscopy (SMLM) image reconstruction from high-density emitter data. Deep-STORM is a neural network capable of image reconstruction from high-density single-molecule localization microscopy (SMLM), first published in 2018 by Nehme et al. in Optica. This network allows image reconstruction of 2D super-resolution images, in a supervised training manner. The network is trained using simulated high-density SMLM data for which the ground-truth is available. These simulations are obtained from random distribution of single molecules in a field-of-view and therefore do not imprint structural priors during training. The network output a super-resolution image with increased pixel density (typically upsampling factor of 8 in each dimension). Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
