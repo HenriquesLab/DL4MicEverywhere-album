@@ -1,6 +1,9 @@
 3D-RCAN_DL4Mic:
   amd64: true
   arm64: false
+DFCAN_DL4Mic:
+  amd64: true
+  arm64: false
 Diffusion_SMLM_DL4Mic:
   amd64: false
   arm64: false
