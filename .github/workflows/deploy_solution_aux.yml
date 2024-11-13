@@ -130,7 +130,7 @@ jobs:
 
   save_failure_building:
     name: Update the solution source and log the result
-    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
+    runs-on: [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'failure') && contains(needs.build_amd64.result, 'failure') ) }}
 
     needs:
@@ -163,7 +163,7 @@ jobs:
 
   save_success_building:
     name: Update the solution source and log the result
-    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
+    runs-on: [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
     needs:
       - build_arm64
@@ -206,6 +206,8 @@ jobs:
     needs:
       - build_arm64
       - build_amd64
+      - save_success_building
+      - save_failure_building
     permissions:
       contents: write
 
