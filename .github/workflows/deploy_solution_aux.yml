@@ -130,7 +130,7 @@ jobs:
 
   save_failure_building:
     name: Update the solution source and log the result
-    runs-on: [self-hosted, dl4miceverywhere-builder]
+    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'failure') && contains(needs.build_amd64.result, 'failure') ) }}
 
     needs:
@@ -163,7 +163,7 @@ jobs:
 
   save_success_building:
     name: Update the solution source and log the result
-    runs-on: [self-hosted, dl4miceverywhere-builder]
+    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
     needs:
       - build_arm64
@@ -201,7 +201,7 @@ jobs:
 
   deploy_solution:
     name: Deploy the solution to the album catalog
-    runs-on: [self-hosted, dl4miceverywhere-builder]
+    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
     needs:
       - build_arm64
