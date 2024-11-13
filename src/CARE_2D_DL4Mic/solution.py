@@ -95,7 +95,7 @@ if gpu_access:
     dependencies = """
 - python=3.10
 - cudatoolkit=11.8.0
-- cudnn=8.6.0
+- cudnn=8.9.2
 - pip
 - pkg-config
 """
