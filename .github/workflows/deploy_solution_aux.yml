@@ -201,7 +201,7 @@ jobs:
 
   deploy_solution:
     name: Deploy the solution to the album catalog
-    runs-on: self-hosted, dl4miceverywhere-builder]
+    runs-on: [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
     needs:
       - build_arm64
