@@ -10,6 +10,9 @@ DFCAN_DL4Mic:
 Diffusion_SMLM_DL4Mic:
   amd64: false
   arm64: false
+Noise2Void_2D_DL4Mic:
+  amd64: true
+  arm64: false
 U-Net_2D_Multilabel_DL4Mic:
   amd64: true
   arm64: false
