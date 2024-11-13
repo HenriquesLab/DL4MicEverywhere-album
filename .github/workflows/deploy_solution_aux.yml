@@ -141,6 +141,8 @@ jobs:
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
+      - name: Wait 30 sec to avoid pull issues
+        run: sleep 30
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
@@ -173,6 +175,8 @@ jobs:
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
+      - name: Wait 30 sec to avoid pull issues
+        run: sleep 30
       - uses: actions/setup-python@v5
         with:
           python-version: '3.9'
