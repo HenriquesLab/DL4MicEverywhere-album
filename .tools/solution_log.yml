@@ -7,6 +7,9 @@ CARE_2D_DL4Mic:
 DFCAN_DL4Mic:
   amd64: true
   arm64: false
+Deep-STORM_2D_DL4Mic:
+  amd64: true
+  arm64: false
 Diffusion_SMLM_DL4Mic:
   amd64: false
   arm64: false
