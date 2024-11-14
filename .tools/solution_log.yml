@@ -31,6 +31,9 @@ MaskRCNN_DL4Mic:
 RetinaNet_DL4Mic:
   amd64: true
   arm64: false
+StarDist_2D_DL4Mic:
+  amd64: true
+  arm64: true
 fnet_3D_DL4Mic:
   amd64: false
   arm64: false
