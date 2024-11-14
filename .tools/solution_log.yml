@@ -7,6 +7,9 @@ CARE_2D_DL4Mic:
 CARE_3D_DL4Mic:
   amd64: true
   arm64: false
+CycleGAN_DL4Mic:
+  amd64: true
+  arm64: false
 DFCAN_DL4Mic:
   amd64: true
   arm64: false
