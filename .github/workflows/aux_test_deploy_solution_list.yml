@@ -21,6 +21,9 @@ jobs:
       secrets: inherit
 
     get_successful_solutions:
+      # Run it always, even if some or none solution were correct. 
+      # If none were correct, the output list will be empty and will stop on next job (deploy_solutions)
+      if: always() 
       name: Get the solutions that were successfully installed
       needs: test_update_solutions
       outputs:
@@ -61,7 +64,7 @@ jobs:
             echo "$files_json"
             echo "matrix=$files_json" >> $GITHUB_OUTPUT
             echo "END"
-  
+
     deploy_solutions:
       if: ${{ needs.get_successful_solutions.outputs.matrix != '' }} 
       name: Deploy successful solutions
