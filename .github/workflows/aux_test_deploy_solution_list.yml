@@ -35,7 +35,6 @@ jobs:
           with:
             path: ../temp
             pattern: success_*
-            merge-multiple: true
         - name: Get list of all successful solutions
           id: all_notebooks
           run: |
