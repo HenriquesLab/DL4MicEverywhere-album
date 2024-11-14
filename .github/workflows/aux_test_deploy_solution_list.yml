@@ -1,4 +1,4 @@
-name: Test and push given required JSON string
+name: (Aux) Test and push given required JSON string
 
 on:
   workflow_call:

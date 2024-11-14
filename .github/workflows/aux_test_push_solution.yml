@@ -1,4 +1,4 @@
-name: Test solution and push to source
+name: (Aux) Test solution and push to source
 
 on:
   workflow_call:
@@ -144,7 +144,9 @@ jobs:
       - name: Install requirements
         run: pip install -r .tools/requirements.txt
       - name: Update the repository with git pull
-        run: git pull
+        run: |
+          git config --global pull.ff true  
+          git pull
       # In this case, the solution will not be copied to the repository
       - name: Update solution log
         run: |
@@ -174,7 +176,9 @@ jobs:
       - name: Install requirements
         run: pip install -r .tools/requirements.txt
       - name: Update the repository with git pull
-        run: git pull
+        run: |
+          git config --global pull.ff true  
+          git pull
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:

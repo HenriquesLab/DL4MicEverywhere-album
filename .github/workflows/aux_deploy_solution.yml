@@ -1,4 +1,4 @@
-name: Deploy solution (needs test_push_solution_aux.yml)
+name: (Aux) Deploy solution
 
 on:
   workflow_call:
