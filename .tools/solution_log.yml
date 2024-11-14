@@ -1,3 +1,6 @@
 Cellpose_2D_DL4Mic:
   amd64: true
   arm64: false
+CycleGAN_DL4Mic:
+  amd64: true
+  arm64: false
