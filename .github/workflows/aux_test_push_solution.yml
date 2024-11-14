@@ -190,13 +190,6 @@ jobs:
         with:
           name: 'solution_${{ inputs.config_file }}'
           path: ../temp
-      # This is done to avoid two steps running at the same time:
-      # deploying ablum soultion  and pulling/pushing the src/solution
-      - name: Save the artifact as successful solution
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'success_${{ inputs.config_file }}'
-          path: '../temp/solution.py'
       - name: Copy the updated solution
         run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
       - name: Update solution log
@@ -207,3 +200,10 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: GitHub Action - Update the notebook version on the configuration
+      # This is done to avoid two steps running at the same time:
+      # deploying ablum soultion  and pulling/pushing the src/solution
+      - name: Save the artifact as successful solution
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'success_${{ inputs.config_file }}'
+          path: './src/${{ inputs.config_file }}/solution.py'
