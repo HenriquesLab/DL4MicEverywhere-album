@@ -59,18 +59,13 @@ jobs:
             echo "matrix=$files_json" >> $GITHUB_OUTPUT
             echo "END"
   
-    config_matrix:
+    test_deploy_solutions:
       if: ${{ needs.check_notebooks.outputs.matrix != '' }} 
-      name: Call the installing and deploying, and possible update configuration
+      name: Call the testing and deploying the solutions
       needs: check_notebooks
-      strategy:
-        # put fail-fast as false if you want to see all results even if one fails,
-        # fail-fast is true by default
-        fail-fast: false
-        matrix: ${{ fromJson(needs.check_notebooks.outputs.matrix) }} 
-      uses: ./.github/workflows/deploy_solution_aux.yml # calls the one above ^
+      uses: ./.github/workflows/aux_test_deploy_solution_list.yml # calls the one above ^
       with:
-        config_file: ${{ matrix.notebook }}
+        matrix_json: ${{ needs.check_notebooks.outputs.matrix }}
       secrets: inherit
           
   

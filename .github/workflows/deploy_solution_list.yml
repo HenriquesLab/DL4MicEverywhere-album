@@ -8,53 +8,46 @@ on:
         type: string
 
 jobs:
-    check_notebooks:
-      name: Get the configurations from notebooks that need to be updated
-      outputs:
-        matrix: ${{ steps.create_json.outputs.matrix }}
-      runs-on: [self-hosted, dl4miceverywhere-builder]
-      steps:
-        - name: Get the input list of all the notebooks
-          id: list_notebooks
-          run: |
-            output="${{ inputs.config_file_list }}"
-            echo "$output"
-            echo "value=${output}" >> $GITHUB_OUTPUT
-        - if: ${{ steps.list_notebooks.outputs.value != '' }}
-          name: List and extract all notebook with new version
-          id: create_json
-          run: |
-            echo "Start"
-            files_json="{\"include\":[{\"notebook\":\""
+  check_notebooks:
+    name: Get the configurations from notebooks that need to be updated
+    outputs:
+      matrix: ${{ steps.create_json.outputs.matrix }}
+    runs-on: [self-hosted, dl4miceverywhere-builder]
+    steps:
+      - name: Get the input list of all the notebooks
+        id: list_notebooks
+        run: |
+          output="${{ inputs.config_file_list }}"
+          echo "$output"
+          echo "value=${output}" >> $GITHUB_OUTPUT
+      - if: ${{ steps.list_notebooks.outputs.value != '' }}
+        name: List and extract all notebook with new version
+        id: create_json
+        run: |
+          echo "Start"
+          files_json="{\"include\":[{\"notebook\":\""
+          echo "$files_json"
+          first=true
+          for file in ${{ steps.list_notebooks.outputs.value }}; do
+            echo "$file was changed"
+            if [ "$first" = true ]; then
+              files_json+=$file
+              first=false
+            else
+              files_json+="\"},{\"notebook\":\""$file
+            fi
             echo "$files_json"
-            first=true
-            for file in ${{ steps.list_notebooks.outputs.value }}; do
-              echo "$file was changed"
-              if [ "$first" = true ]; then
-                files_json+=$file
-                first=false
-              else
-                files_json+="\"},{\"notebook\":\""$file
-              fi
-              echo "$files_json"
-            done
-            files_json+="\"}]}"
-            echo "$files_json"
-            echo "matrix=$files_json" >> $GITHUB_OUTPUT
-            echo "END"
-  
-    config_matrix:
-      if: ${{ needs.check_notebooks.outputs.matrix != '' }} 
-      name: Call the installing and deploying, and possible update configuration
-      needs: check_notebooks
-      strategy:
-        # put fail-fast as false if you want to see all results even if one fails,
-        # fail-fast is true by default
-        fail-fast: false
-        matrix: ${{ fromJson(needs.check_notebooks.outputs.matrix) }} 
-      uses: ./.github/workflows/deploy_solution_aux.yml # calls the one above ^
-      with:
-        config_file: ${{ matrix.notebook }}
-      secrets: inherit
-          
-  
+          done
+          files_json+="\"}]}"
+          echo "$files_json"
+          echo "matrix=$files_json" >> $GITHUB_OUTPUT
+          echo "END"
+
+  test_deploy_solutions:
+    if: ${{ needs.check_notebooks.outputs.matrix != '' }} 
+    name: Call the testing and deploying the solutions
+    needs: check_notebooks
+    uses: ./.github/workflows/aux_test_deploy_solution_list.yml # calls the one above ^
+    with:
+      matrix_json: ${{ needs.check_notebooks.outputs.matrix }}
+    secrets: inherit
