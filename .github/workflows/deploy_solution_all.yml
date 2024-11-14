@@ -41,18 +41,74 @@ jobs:
             echo "matrix=$files_json" >> $GITHUB_OUTPUT
             echo "END"
   
-    config_matrix:
+    test_update_solutions:
       if: ${{ needs.check_notebooks.outputs.matrix != '' }} 
-      name: Call the installing and deploying, and possible update configuration
+      name: Test and update solution
       needs: check_notebooks
       strategy:
         # put fail-fast as false if you want to see all results even if one fails,
         # fail-fast is true by default
         fail-fast: false
         matrix: ${{ fromJson(needs.check_notebooks.outputs.matrix) }} 
+      uses: ./.github/workflows/test_push_solution_aux.yml # calls the one above ^
+      with:
+        config_file: ${{ matrix.notebook }}
+      secrets: inherit
+
+    get_successful_solutions:
+      name: Get the solutions that were successfully installed
+      needs: test_update_solutions
+      outputs:
+        matrix: ${{ steps.create_json.outputs.matrix }}
+      runs-on: [self-hosted, dl4miceverywhere-builder]
+      steps:
+        - name: Download all successful solutions
+          uses: actions/download-artifact@v4
+          with:
+            path: ../temp
+            pattern: success_*
+            merge-multiple: true
+        - name: Get list of all successful solutions
+          id: all_notebooks
+          run: |
+            output=$(for dir in $(ls -d ../temp/*); do basename $dir; done | tr "\n" " ")
+            echo "$output"
+            echo "value=${output}" >> $GITHUB_OUTPUT
+        - if: ${{ steps.all_notebooks.outputs.value != '' }}
+          name: List and extract all notebook with new version
+          id: create_json
+          run: |
+            echo "Start"
+            files_json="{\"include\":[{\"notebook\":\""
+            echo "$files_json"
+            first=true
+            for file in ${{ steps.all_notebooks.outputs.value }}; do
+              echo "$file was changed"
+              if [ "$first" = true ]; then
+                files_json+=$file
+                first=false
+              else
+                files_json+="\"},{\"notebook\":\""$file
+              fi
+              echo "$files_json"
+            done
+            files_json+="\"}]}"
+            echo "$files_json"
+            echo "matrix=$files_json" >> $GITHUB_OUTPUT
+            echo "END"
+  
+    deploy_solutions:
+      if: ${{ needs.get_successful_solutions.outputs.matrix != '' }} 
+      name: Deploy successful solutions
+      needs: get_successful_solutions
+      strategy:
+        # put fail-fast as false if you want to see all results even if one fails,
+        # fail-fast is true by default
+        fail-fast: false
+        matrix: ${{ fromJson(needs.get_successful_solutions.outputs.matrix) }} 
       uses: ./.github/workflows/deploy_solution_aux.yml # calls the one above ^
       with:
         config_file: ${{ matrix.notebook }}
       secrets: inherit
           
-  
+    
