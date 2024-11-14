@@ -38,7 +38,7 @@ jobs:
         - name: Get list of all successful solutions
           id: all_notebooks
           run: |
-            output=$(for dir in $(ls -d ../temp/*); do basename $dir; done | tr "\n" " ")
+            output=$(for dir in $(ls -d ../temp/*); do basename $dir | sed -e 's/^success_//' ; done | tr "\n" " ")
             echo "$output"
             echo "value=${output}" >> $GITHUB_OUTPUT
         - if: ${{ steps.all_notebooks.outputs.value != '' }}
