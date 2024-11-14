@@ -1,6 +1,9 @@
 DFCAN_DL4Mic:
   amd64: true
   arm64: false
+Deep-STORM_2D_DL4Mic:
+  amd64: true
+  arm64: false
 pix2pix_DL4Mic:
   amd64: true
   arm64: false
