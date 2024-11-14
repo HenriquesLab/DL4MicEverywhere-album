@@ -1,14 +1,10 @@
-name: Deploy solution from a config
+name: Deploy solution (needs test_push_solution_aux.yml)
 
 on:
   workflow_call:
     inputs:
       config_file: # the variable you can use in place of a matrix
         required: true
-        type: string
-  workflow_dispatch:
-    inputs:
-      config_file: # the variable you can use in place of a matrix
         type: string
 
 env:

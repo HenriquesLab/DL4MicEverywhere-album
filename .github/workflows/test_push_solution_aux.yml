@@ -1,4 +1,4 @@
-name: Deploy solution from a config
+name: Test solution and push to source
 
 on:
   workflow_call:
