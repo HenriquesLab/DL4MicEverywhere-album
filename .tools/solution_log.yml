@@ -34,6 +34,9 @@ RetinaNet_DL4Mic:
 StarDist_2D_DL4Mic:
   amd64: true
   arm64: true
+StarDist_3D_DL4Mic:
+  amd64: true
+  arm64: false
 fnet_3D_DL4Mic:
   amd64: false
   arm64: false
