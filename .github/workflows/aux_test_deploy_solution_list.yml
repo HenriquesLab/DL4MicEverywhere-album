@@ -33,12 +33,12 @@ jobs:
         - name: Download all successful solutions
           uses: actions/download-artifact@v4
           with:
-            path: ../temp
+            path: ../success_temp
             pattern: success_*
         - name: Get list of all successful solutions
           id: all_notebooks
           run: |
-            output=$(for dir in $(ls -d ../temp/*); do basename $dir | sed -e 's/^success_//' ; done | tr "\n" " ")
+            output=$(for dir in $(ls -d ../success_temp/*); do basename $dir | sed -e 's/^success_//' ; done | tr "\n" " ")
             echo "$output"
             echo "value=${output}" >> $GITHUB_OUTPUT
         - if: ${{ steps.all_notebooks.outputs.value != '' }}
