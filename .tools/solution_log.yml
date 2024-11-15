@@ -40,6 +40,9 @@ MaskRCNN_DL4Mic:
 SplineDist_2D_DL4Mic:
   amd64: true
   arm64: false
+StarDist_3D_DL4Mic:
+  amd64: true
+  arm64: false
 fnet_2D_DL4Mic:
   amd64: false
   arm64: false
