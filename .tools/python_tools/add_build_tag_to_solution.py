@@ -35,6 +35,7 @@ def add_build_status(solution_path, flag_amd64, flag_arm64):
 
     updated_solution_code = add_tag(code=solution_code, new_tag=amd64_tag)
     updated_solution_code = add_tag(code=updated_solution_code, new_tag=arm64_tag)
+    updated_solution_code = add_tag(code=updated_solution_code, new_tag="test")
 
     # Write the solution.py file
     with open(solution_path, "w", encoding='utf8') as solution_file:
