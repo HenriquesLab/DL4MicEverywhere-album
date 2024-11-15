@@ -151,7 +151,7 @@ setup(
     title="care-2d-zerocostdl4mic implementation.",
     description="Supervised restoration of 2D images. CARE is a neural network capable of image restoration from corrupted bio-images, first published in 2018 by Weigert et al. in Nature Methods. The network allows image denoising and resolution improvement in 2D and 3D images, in a supervised training manner. The function of the network is essentially determined by the set of images provided in the training dataset. For instance, if noisy images are provided as input and high signal-to-noise ratio images are provided as targets, the network will perform denoising. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'CARE', 'denoising', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere', 'AMD64 ✅', 'ARM64 ❌', 'test'],
+    tags=['colab', 'notebook', 'CARE', 'denoising', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere', 'AMD64 ✅', 'ARM64 ❌'],
     args=[{
         "name": "path",
         "type": "string",
