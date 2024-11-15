@@ -27,6 +27,8 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- ARM64
+- AMD64
 - colab
 - notebook
 - u-net
@@ -36,6 +38,6 @@ tags:
 - ZeroCostDL4Mic
 - 2D
 - dl4miceverywhere
-timestamp: '2024-11-12T17:06:03.118249'
+timestamp: '2024-11-15T22:58:44.557874'
 title: u-net-2d-multilabel-zerocostdl4mic implementation.
 version: 2.1.4
