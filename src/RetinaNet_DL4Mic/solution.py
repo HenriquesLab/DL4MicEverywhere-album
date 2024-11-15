@@ -151,7 +151,7 @@ setup(
     title="retinanet-zerocostdl4mic implementation.",
     description="Object detection of 2D images. RetinaNet is a is an object detection network, which identifies objects in images and draws bounding boxes around them.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'RetinaNet', 'object detection', 'ZeroCostDL4Mic', 'dl4miceverywhere', 'AMD64 ✅', 'ARM64 ❌'],
+    tags=['colab', 'notebook', 'RetinaNet', 'object detection', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
