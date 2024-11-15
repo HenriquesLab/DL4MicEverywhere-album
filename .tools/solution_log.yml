@@ -37,6 +37,9 @@ Diffusion_SMLM_DL4Mic:
 MaskRCNN_DL4Mic:
   amd64: true
   arm64: false
+RetinaNet_DL4Mic:
+  amd64: true
+  arm64: false
 SplineDist_2D_DL4Mic:
   amd64: true
   arm64: false
