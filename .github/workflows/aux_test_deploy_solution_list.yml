@@ -14,6 +14,7 @@ jobs:
         # put fail-fast as false if you want to see all results even if one fails,
         # fail-fast is true by default
         fail-fast: false
+        max-parallel: 1 # To avoid git pull colissions
         matrix: ${{ fromJson(inputs.matrix_json) }} 
       uses: ./.github/workflows/aux_test_push_solution.yml # calls the one above ^
       with:
