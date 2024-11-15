@@ -34,6 +34,9 @@ Detectron2_2D_DL4Mic:
 Diffusion_SMLM_DL4Mic:
   amd64: false
   arm64: false
+Embedseg_DL4Mic:
+  amd64: true
+  arm64: false
 MaskRCNN_DL4Mic:
   amd64: true
   arm64: false
