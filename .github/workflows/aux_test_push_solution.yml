@@ -137,19 +137,23 @@ jobs:
     steps:
       - name: Sleep for 30 seconds
         run: sleep 30
-        shell: bash
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Allow fast-forward on git pull
+        run: git config --global pull.ff true 
+      - name: Execute and retry git pull
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 3
+          max_attempts: 3
+          command: git pull --allow-unrelated-histories 
+      - name: Install Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           # cache: 'pip' # caching pip dependencies
-      - name: Install requirements
+      - name: Install the requirements on Python
         run: pip install -r .tools/requirements.txt
-      - name: Update the repository with git pull
-        run: |
-          git config --global pull.ff true  
-          git pull --allow-unrelated-histories
       # In this case, the solution will not be copied to the repository
       - name: Update solution log
         run: |
@@ -172,19 +176,23 @@ jobs:
     steps:
       - name: Sleep for 30 seconds
         run: sleep 30
-        shell: bash
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Allow fast-forward on git pull
+        run: git config --global pull.ff true 
+      - name: Execute and retry git pull
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 3
+          max_attempts: 3
+          command: git pull --allow-unrelated-histories 
+      - name: Install Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
           # cache: 'pip' # caching pip dependencies
-      - name: Install requirements
+      - name: Install the requirements on Python
         run: pip install -r .tools/requirements.txt
-      - name: Update the repository with git pull
-        run: |
-          git config --global pull.ff true  
-          git pull --allow-unrelated-histories
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:

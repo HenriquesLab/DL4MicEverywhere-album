@@ -60,8 +60,12 @@ jobs:
       - name: Add catalog
         run: |
           album add-catalog git@github.com:HenriquesLab/DL4MicEverywhere-album.git
-      - name: Deploy certain solution
-        run: |
-          album deploy '../temp/solution.py' DL4MicEverywhere_album
+
+      - name: Execute and retry album deploy
+        uses: nick-fields/retry@v3
+        with:
+          timeout_minutes: 3
+          max_attempts: 3
+          command: album deploy '../temp/solution.py' DL4MicEverywhere_album 
       - name: Post - Deploy certain solution
         run: album remove-catalog DL4MicEverywhere_album
