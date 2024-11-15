@@ -30,6 +30,8 @@ jobs:
         matrix: ${{ steps.create_json.outputs.matrix }}
       runs-on: [self-hosted, dl4miceverywhere-builder]
       steps:
+        - name: Remove success_temp folder if exist
+          run: rm -f ../success_temp
         - name: Download all successful solutions
           uses: actions/download-artifact@v4
           with:

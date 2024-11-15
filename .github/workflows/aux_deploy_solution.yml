@@ -27,6 +27,11 @@ jobs:
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
+      - name: Download modified solution from previous step
+        uses: actions/download-artifact@v4
+        with:
+          name: 'success_${{ inputs.config_file }}'
+          path: ../temp
       - name: Set up album's Miniconda environment
         uses: conda-incubator/setup-miniconda@v3
         with:          
@@ -39,11 +44,6 @@ jobs:
           environment-file: .tools/actions_utils/album_enviornment.yml 
           condarc-file: .tools/actions_utils/album_condarc.yml # Optional runtime configuration
           run-post: true # Run post cleanup step
-      - name: Download modified solution from previous step
-        uses: actions/download-artifact@v4
-        with:
-          name: 'success_${{ inputs.config_file }}'
-          path: ../temp
       # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
       - name: Setup git config
         run: |
