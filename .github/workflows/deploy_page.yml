@@ -16,7 +16,7 @@ permissions:
 jobs:
   build:
     name: Build the GitHub webpage
-    runs-on: [self-hosted, dl4miceverywhere-builder]
+    runs-on: ubuntu-latest
     steps:
       - name: Wait 30 seconds to finish any possible update
         run: sleep 30
