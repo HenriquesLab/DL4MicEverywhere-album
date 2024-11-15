@@ -29,12 +29,13 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- AMD64
 - colab
 - notebook
 - CycleGAN
 - ZeroCostDL4Mic
 - 2D
 - dl4miceverywhere
-timestamp: '2024-11-15T13:38:49.024649'
+timestamp: '2024-11-15T22:50:28.318789'
 title: denoiseg-zerocostdl4mic implementation.
 version: 1.14.1
