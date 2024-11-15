@@ -55,6 +55,9 @@ StarDist_2D_DL4Mic:
 StarDist_3D_DL4Mic:
   amd64: true
   arm64: false
+U-Net_2D_DL4Mic:
+  amd64: true
+  arm64: false
 U-Net_3D_DL4Mic:
   amd64: true
   arm64: false
