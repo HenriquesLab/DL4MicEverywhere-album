@@ -26,12 +26,13 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- AMD64
 - colab
 - notebook
 - SplineDist
 - segmentation
 - ZeroCostDL4Mic
 - dl4miceverywhere
-timestamp: '2024-11-15T13:46:11.790499'
+timestamp: '2024-11-15T22:56:28.626414'
 title: splinedist-2d-zerocostdl4mic implementation.
 version: 1.14.1
