@@ -29,6 +29,7 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- AMD64
 - colab
 - notebook
 - 3D-RCAN
@@ -36,6 +37,6 @@ tags:
 - ZeroCostDL4Mic
 - 3D
 - dl4miceverywhere
-timestamp: '2024-11-12T14:40:33.890587'
+timestamp: '2024-11-15T22:45:43.124123'
 title: 3d-rcan-zerocostdl4mic implementation.
 version: 1.14.1
