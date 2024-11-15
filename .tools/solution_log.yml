@@ -16,3 +16,6 @@ CycleGAN_DL4Mic:
 DecoNoising_2D_DL4Mic:
   amd64: true
   arm64: false
+Deep-STORM_2D_DL4Mic:
+  amd64: true
+  arm64: false
