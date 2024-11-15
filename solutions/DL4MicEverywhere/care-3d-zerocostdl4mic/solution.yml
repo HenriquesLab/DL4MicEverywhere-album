@@ -30,6 +30,7 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- AMD64
 - colab
 - notebook
 - CARE
@@ -37,6 +38,6 @@ tags:
 - ZeroCostDL4Mic
 - 3D
 - dl4miceverywhere
-timestamp: '2024-11-15T13:33:04.220177'
+timestamp: '2024-11-15T22:46:51.789336'
 title: care-3d-zerocostdl4mic implementation.
 version: 1.15.3
