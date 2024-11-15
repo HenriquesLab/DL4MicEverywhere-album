@@ -1,0 +1,18 @@
+3D-RCAN_DL4Mic:
+  amd64: true
+  arm64: false
+CARE_2D_DL4Mic:
+  amd64: true
+  arm64: false
+CARE_3D_DL4Mic:
+  amd64: true
+  arm64: false
+Cellpose_2D_DL4Mic:
+  amd64: true
+  arm64: false
+CycleGAN_DL4Mic:
+  amd64: true
+  arm64: false
+DecoNoising_2D_DL4Mic:
+  amd64: true
+  arm64: false
