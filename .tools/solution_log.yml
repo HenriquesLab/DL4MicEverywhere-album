@@ -7,3 +7,6 @@ CARE_2D_DL4Mic:
 CARE_3D_DL4Mic:
   amd64: true
   arm64: false
+DecoNoising_2D_DL4Mic:
+  amd64: true
+  arm64: false
