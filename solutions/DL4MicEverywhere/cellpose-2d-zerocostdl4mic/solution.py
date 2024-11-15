@@ -154,7 +154,7 @@ setup(
     title="cellpose-2d-zerocostdl4mic implementation.",
     description="Instance segmentation of 2D and 3D images. Cellpose is a generalist algorithm for cellular segmentation.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'Cellpose', 'Segmentation', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'Cellpose', 'Segmentation', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
