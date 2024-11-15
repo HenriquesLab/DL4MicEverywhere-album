@@ -4,7 +4,7 @@ on:
     tags:
     - '*'
   delete:
-    
+
   workflow_dispatch:
     
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -16,8 +16,11 @@ permissions:
 jobs:
   build:
     name: Build the GitHub webpage
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, dl4miceverywhere-builder]
     steps:
+      - name: Wait 30 seconds to finish any possible update
+        run: sleep 30
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
