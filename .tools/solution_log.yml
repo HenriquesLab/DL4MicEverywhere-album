@@ -40,3 +40,6 @@ MaskRCNN_DL4Mic:
 fnet_2D_DL4Mic:
   amd64: false
   arm64: false
+pix2pix_DL4Mic:
+  amd64: true
+  arm64: false
