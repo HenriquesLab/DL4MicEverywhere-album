@@ -19,3 +19,6 @@ DecoNoising_2D_DL4Mic:
 Deep-STORM_2D_DL4Mic:
   amd64: true
   arm64: false
+DenoiSeg_DL4Mic:
+  amd64: true
+  arm64: false
