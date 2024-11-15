@@ -35,6 +35,8 @@ jobs:
           with:
             path: ../success_temp
             pattern: success_*
+        - name: Check artifacts
+          run: ls ../success_temp
         - name: Get list of all successful solutions
           id: all_notebooks
           run: |

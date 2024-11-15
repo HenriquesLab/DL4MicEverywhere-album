@@ -201,6 +201,9 @@ jobs:
           path: ../temp
       - name: Copy the updated solution
         run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
+      - name: Add building tags to the solution
+        run: |
+          python .tools/python_tools/add_build_tag_to_solution.py -p './src/${{ inputs.config_file }}/solution.py' -d ${{ contains(needs.build_amd64.result, 'success') }} -r ${{ contains(needs.build_arm64.result, 'success') }}
       - name: Update solution log
         run: |
           python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
