@@ -13,3 +13,6 @@ CycleGAN_DL4Mic:
 DecoNoising_2D_DL4Mic:
   amd64: true
   arm64: false
+Detectron2_2D_DL4Mic:
+  amd64: true
+  arm64: false
