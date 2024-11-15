@@ -1,6 +1,27 @@
 import os
 import re
 
+def remove_tag(code, new_tag):
+    # Regular expression to match the tags list
+    tags_regex = r"(tags=\[)(.*?)(\])"
+
+    def replacer(match):
+        # Extract the current tags
+        before, tags, after = match.groups()
+
+        if new_tag in tags:
+            # Add the new tag to the tags list
+            updated_tags = tags.replace(f"{new_tag}, ", "")
+        else:
+            # Don't do anything
+            updated_tags = tags
+            
+        # Return the updated string
+        return f"{before}{updated_tags}{after}"
+    
+    # Apply the replacement
+    return re.sub(tags_regex, replacer, code, flags=re.DOTALL)
+
 def add_tag(code, new_tag):
     # Regular expression to match the tags list
     tags_regex = r"(tags=\[)(.*?)(\])"
@@ -9,16 +30,11 @@ def add_tag(code, new_tag):
         # Extract the current tags
         before, tags, after = match.groups()
 
-        if new_tag[:-2] not in tags:
+        if new_tag not in tags:
             # Add the new tag to the tags list
-            updated_tags = f"{tags}, {new_tag}" if tags.strip() else new_tag
+            updated_tags = f"{new_tag}, {tags}" if tags.strip() else new_tag
         else:
-            if new_tag[:-2] == "ARM64":
-                updated_tags = re.sub(r"ARM64 .", new_tag, tags)
-            elif new_tag[:-2] == "AMD64":
-                updated_tags = re.sub(r"AMD64 .", new_tag, tags)
-            else:
-                raise ValueError("Tag was not correct")
+            updated_tags = tags
 
         # Return the updated string
         return f"{before}{updated_tags}{after}"
@@ -32,18 +48,18 @@ def add_build_status(solution_path, flag_amd64, flag_arm64):
     with open(solution_path, "r", encoding='utf8') as f:
         solution_code = f.read()
 
+    amd64_tag = "\'AMD64'"
+    arm64_tag = "\'ARM64\'"
+
     if flag_amd64:
-        amd64_tag = "\'AMD64 ✅\'"
+        updated_solution_code = add_tag(code=solution_code, new_tag=amd64_tag)
     else:
-        amd64_tag = "\'AMD64 ❌\'"
-
+        updated_solution_code = remove_tag(code=solution_code, new_tag=amd64_tag)
+        
     if flag_arm64:
-        arm64_tag = "\'ARM64 ✅\'"
+        updated_solution_code = add_tag(code=updated_solution_code, new_tag=arm64_tag)
     else:
-        arm64_tag = "\'ARM64 ❌\'"
-
-    updated_solution_code = add_tag(code=solution_code, new_tag=amd64_tag)
-    updated_solution_code = add_tag(code=updated_solution_code, new_tag=arm64_tag)
+        updated_solution_code = remove_tag(code=updated_solution_code, new_tag=arm64_tag)
 
     # Write the solution.py file
     with open(solution_path, "w", encoding='utf8') as solution_file:

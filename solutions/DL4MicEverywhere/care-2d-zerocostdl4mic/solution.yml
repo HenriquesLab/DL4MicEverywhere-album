@@ -37,8 +37,8 @@ tags:
 - ZeroCostDL4Mic
 - 2D
 - dl4miceverywhere
-- "AMD64 \u2705"
-- "ARM64 \u274C"
+- AMD64\u2705
+- ARM64\u274C
 timestamp: '2024-11-15T17:02:31.194482'
 title: care-2d-zerocostdl4mic implementation.
 version: 1.15.2
