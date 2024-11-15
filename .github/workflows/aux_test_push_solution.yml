@@ -147,6 +147,7 @@ jobs:
           timeout_minutes: 3
           max_attempts: 3
           command: git pull --allow-unrelated-histories 
+          new_command_on_retry: git reset --hard HEAD  
       - name: Install Python
         uses: actions/setup-python@v5
         with:
