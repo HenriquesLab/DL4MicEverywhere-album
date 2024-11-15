@@ -147,7 +147,7 @@ setup(
     title="denoiseg-zerocostdl4mic implementation.",
     description="Joint denoising and binary segmentation of 2D images. DenoiSeg 2D is deep-learning method that can be used to jointly denoise and segment 2D microscopy images. The benefits of using DenoiSeg (compared to other Deep Learning-based segmentation methods) are more prononced when only a few annotated images are available. However, the denoising part requires many images to perform well. All the noisy images don't need to be labeled to train DenoiSeg. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'CycleGAN', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'CycleGAN', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
