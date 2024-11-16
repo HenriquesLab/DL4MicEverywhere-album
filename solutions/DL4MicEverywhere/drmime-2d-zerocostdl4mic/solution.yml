@@ -24,12 +24,13 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- AMD64
 - colab
 - notebook
 - DRMIME
 - image registration
 - ZeroCostDL4Mic
 - dl4miceverywhere
-timestamp: '2024-11-15T13:42:23.082387'
+timestamp: '2024-11-16T14:35:32.531131'
 title: drmime-2d-zerocostdl4mic implementation.
 version: 1.14.1
