@@ -152,7 +152,7 @@ setup(
     title="u-net-3d-zerocostdl4mic implementation.",
     description="3D binary segmentation. The 3D U-Net was first introduced by Çiçek et al for learning dense volumetric segmentations from sparsely annotated ground-truth data building upon the original U-Net architecture by Ronneberger et al. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'U-Net', 'segmentation', 'ZeroCostDL4Mic', '3D', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'U-Net', 'segmentation', 'ZeroCostDL4Mic', '3D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
