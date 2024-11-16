@@ -24,6 +24,8 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- ARM64
+- AMD64
 - colab
 - notebook
 - StarDist
@@ -31,8 +33,6 @@ tags:
 - ZeroCostDL4Mic
 - 2D
 - dl4miceverywhere
-- "AMD64 \u2705"
-- "ARM64 \u2705"
-timestamp: '2024-11-15T16:03:16.864927'
+timestamp: '2024-11-16T14:39:47.404146'
 title: stardist-2d-zerocostdl4mic implementation.
 version: 1.20.2
