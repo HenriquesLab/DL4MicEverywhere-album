@@ -155,7 +155,7 @@ setup(
     title="cyclegan-zerocostdl4mic implementation.",
     description="Unpaired image-to-image translation of 2D images. CycleGAN is a method that can capture the characteristics of one image domain and figure out how these characteristics could be translated into another image domain, all in the absence of any paired training examples (ie transform a horse into zebra or apples into oranges). While CycleGAN can potentially be used for any type of image-to-image translation, we illustrate that it can be used to predict what a fluorescent label would look like when imaged using another imaging modalities. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'CycleGAN', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'CycleGAN', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
