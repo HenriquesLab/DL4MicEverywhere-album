@@ -149,7 +149,7 @@ setup(
     title="noise2void-3d-zerocostdl4mic implementation.",
     description="self-supervised denoising of 3D images. Noise2VOID 3D is deep-learning method that can be used to denoise 3D microscopy images. By running this notebook, you can train your own network and denoise your images. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'Noise2Void', 'denoising', 'ZeroCostDL4Mic', '3D', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'Noise2Void', 'denoising', 'ZeroCostDL4Mic', '3D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
