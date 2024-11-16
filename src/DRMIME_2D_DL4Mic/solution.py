@@ -144,7 +144,7 @@ setup(
     title="drmime-2d-zerocostdl4mic implementation.",
     description="DRMIME is an network that can be used to register microscopy images (affine and perspective registration).",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'DRMIME', 'image registration', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'DRMIME', 'image registration', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
