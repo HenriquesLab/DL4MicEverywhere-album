@@ -22,14 +22,13 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- AMD64
 - colab
 - notebook
 - RetinaNet
 - object detection
 - ZeroCostDL4Mic
 - dl4miceverywhere
-- "AMD64 \u2705"
-- "ARM64 \u274C"
-timestamp: '2024-11-15T16:02:07.504746'
+timestamp: '2024-11-16T14:38:36.839408'
 title: retinanet-zerocostdl4mic implementation.
 version: 1.14.1
