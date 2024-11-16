@@ -145,7 +145,7 @@ setup(
     title="detectron2-2d-zerocostdl4mic implementation.",
     description="Object detection of 2D images. Detectron2 is an object detection network developed by Facebook AI Research, which identifies objects in images and draws bounding boxes around them.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'Detectron2', 'object detection', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'Detectron2', 'object detection', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
