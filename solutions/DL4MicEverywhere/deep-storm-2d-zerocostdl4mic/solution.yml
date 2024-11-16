@@ -33,6 +33,7 @@ solution_creators:
 - DL4MicEverywhere team
 - album team
 tags:
+- AMD64
 - colab
 - notebook
 - Deep-STORM
@@ -40,6 +41,6 @@ tags:
 - ZeroCostDL4Mic
 - 2D
 - dl4miceverywhere
-timestamp: '2024-11-15T13:37:47.317989'
+timestamp: '2024-11-16T14:33:18.095216'
 title: deep-storm-2d-zerocostdl4mic implementation.
 version: 1.13.3

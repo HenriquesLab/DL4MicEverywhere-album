@@ -146,7 +146,7 @@ setup(
     title="deep-storm-2d-zerocostdl4mic implementation.",
     description="Single Molecule Localization Microscopy (SMLM) image reconstruction from high-density emitter data. Deep-STORM is a neural network capable of image reconstruction from high-density single-molecule localization microscopy (SMLM), first published in 2018 by Nehme et al. in Optica. This network allows image reconstruction of 2D super-resolution images, in a supervised training manner. The network is trained using simulated high-density SMLM data for which the ground-truth is available. These simulations are obtained from random distribution of single molecules in a field-of-view and therefore do not imprint structural priors during training. The network output a super-resolution image with increased pixel density (typically upsampling factor of 8 in each dimension). Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'Deep-STORM', 'labelling', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'Deep-STORM', 'labelling', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
