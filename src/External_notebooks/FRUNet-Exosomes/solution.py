@@ -137,7 +137,7 @@ setup(
     title="frunet-tem-exosomes-sev-external implementation.",
     description="",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=[],
+    tags=['ARM64'],
     args=[{
         "name": "path",
         "type": "string",
