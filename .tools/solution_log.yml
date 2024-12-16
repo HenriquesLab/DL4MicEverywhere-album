@@ -1,0 +1,4 @@
+Diffusion_SMLM_DL4Mic:
+  '1.12':
+    amd64: false
+    arm64: false
