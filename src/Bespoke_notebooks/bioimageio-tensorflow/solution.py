@@ -136,7 +136,7 @@ setup(
     title="load-bioimageio-tensorflow-bespoke implementation.",
     description="Notebook to load models from the BioImage Model Zoo in TensorFlow",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'general-notebook', 'tensorflow', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['ARM64', 'AMD64', 'colab', 'notebook', 'general-notebook', 'tensorflow', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
