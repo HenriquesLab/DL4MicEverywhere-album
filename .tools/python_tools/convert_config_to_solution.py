@@ -7,7 +7,7 @@ import re
 def convert_config_to_solution(config_path):
     # Use regular expressions tu extract the base path and the notebook folder
     DL4MicEverywhere_path, notebook_folder = re.findall(r"(.*).notebooks.(.*).configuration.yaml", config_path)[0]
-    convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, notebook_folder=notebook_folder)
+    convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, notebook_both_folders=notebook_folder)
 
 def convert_config_to_solution(DL4MicEverywhere_path, notebook_both_folders):
 
@@ -141,7 +141,7 @@ def main(dl4miceverywhere_path=None):
             for notebook_folder in os.listdir(notebook_type_path):
                 notebook_folder_path = os.path.join(notebook_type_path, notebook_folder)
                 if os.path.isdir(notebook_folder_path):
-                    convert_config_to_solution(DL4MicEverywhere_path=dl4miceverywhere_path, notebook_type=notebook_type, notebook_folder=notebook_folder)
+                    convert_config_to_solution(DL4MicEverywhere_path=dl4miceverywhere_path, notebook_both_folders=f"{notebook_type}/{notebook_folder}")
 
 if __name__ == "__main__":
     if len(sys.argv) <= 1:
@@ -153,6 +153,6 @@ if __name__ == "__main__":
         sys.exit(convert_config_to_solution(config=sys.argv[1]))
     elif len(sys.argv) == 3:
         # DL4MicEverywhere path and notebook_folder name are provided
-        sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_folder=sys.argv[2]))
+        sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_both_folders=sys.argv[2]))
     else:
         sys.exit(1)
