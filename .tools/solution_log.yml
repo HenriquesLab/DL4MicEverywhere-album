@@ -2,6 +2,10 @@ Diffusion_SMLM_DL4Mic:
   '1.12':
     amd64: false
     arm64: false
+External_notebooks/FRUNet-Exosomes:
+  1.0.0:
+    amd64: false
+    arm64: false
 ZeroCostDL4Mic_notebooks/CARE_2D_DL4Mic:
   1.15.2:
     amd64: true
