@@ -158,9 +158,9 @@ jobs:
         id: my-action
         uses: Wandalen/wretry.action@master
         with:
-          attempt_delay: 3
+          attempt_delay: 3000 # in ms
           attempt_limit: 3
-          action: ./.github/workflows/aux_save_building.yml
+          action: HenriquesLab/DL4MicEverywhere-album/.github/workflows/aux_save_building.yaml@main
           with: |
             config_file: ${{ inputs.config_file }}
             solution_version: ${{ needs.convert_solution.outputs.solution_version }} 
