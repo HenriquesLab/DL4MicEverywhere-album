@@ -1,0 +1,24 @@
+album_api_version: 0.5.1
+args:
+- default: .
+  description: What is your working path?
+  name: path
+  type: string
+changelog: null
+cite:
+- doi: https://doi.org/10.1038/s41598-019-49431-3
+  text: "G\xF3mez-de-Mariscal, E. et al., Deep-Learning-Based Segmentation of SmallExtracellular\
+    \ Vesicles in Transmission Electron Microscopy Images Scientific Reports, (2019)"
+covers: []
+description: ''
+documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md
+group: DL4MicEverywhere
+name: frunet-tem-exosomes-sev-external
+solution_creators:
+- DL4MicEverywhere team
+- album team
+tags:
+- ARM64
+timestamp: '2024-12-16T21:17:54.259920'
+title: frunet-tem-exosomes-sev-external implementation.
+version: 1.0.0
