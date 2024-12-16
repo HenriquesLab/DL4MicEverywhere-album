@@ -35,7 +35,7 @@ jobs:
       - name: Execute and retry git pull
         uses: nick-fields/retry@v3
         with:
-          timeout_minutes: 3
+          retry_wait_seconds: 30
           max_attempts: 3
           command: git pull --allow-unrelated-histories 
       - name: Install Python

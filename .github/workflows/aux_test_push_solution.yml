@@ -154,15 +154,11 @@ jobs:
     permissions:
       contents: write
     steps:
+      - name: Clone actual DL4MicEverywhere-album repository
+        uses: actions/checkout@v4
       - name: Execute and retry updating the information
-        id: my-action
-        uses: Wandalen/wretry.action@master
+        uses: nick-fields/retry@v3
         with:
-          attempt_delay: 3000 # in ms
-          attempt_limit: 3
-          action: HenriquesLab/DL4MicEverywhere-album/.github/workflows/aux_save_building.yaml@main
-          with: |
-            config_file: ${{ inputs.config_file }}
-            solution_version: ${{ needs.convert_solution.outputs.solution_version }} 
-            build_amd64_result: ${{ contains(needs.build_amd64.result, 'success') }} 
-            build_arm64_result: ${{ contains(needs.build_arm64.result, 'success') }}
+          retry_wait_seconds: 30
+          max_attempts: 3
+          command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=${{ needs.convert_solution.outputs.solution_version }} -f build_amd64_result=${{ contains(needs.build_amd64.result, 'success') }} -f build_arm64_result=${{ contains(needs.build_arm64.result, 'success') }}
