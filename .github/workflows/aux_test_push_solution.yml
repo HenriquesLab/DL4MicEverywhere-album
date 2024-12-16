@@ -11,155 +11,158 @@ env:
   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
   
 jobs:
-  convert_solution:
-    name: Extract arguments from configuration
-    runs-on: [self-hosted, dl4miceverywhere-builder]
-    outputs:
-      solution_version: ${{ steps.export_solution.outputs.solution_version }}
-    steps:
-      - name: Clone actual DL4MicEverywhere-album repository
-        uses: actions/checkout@v4
-        with: 
-          path: DL4MicEverywhere-album
-      - name: Clone DL4MicEverywhere repository
-        uses: actions/checkout@v4
-        with:
-          repository: HenriquesLab/DL4MicEverywhere
-          path: DL4MicEverywhere
-      # Set up Python for its use
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-          # cache: 'pip' # caching pip dependencies
+  # convert_solution:
+  #   name: Extract arguments from configuration
+  #   runs-on: [self-hosted, dl4miceverywhere-builder]
+  #   outputs:
+  #     solution_version: ${{ steps.export_solution.outputs.solution_version }}
+  #   steps:
+  #     - name: Clone actual DL4MicEverywhere-album repository
+  #       uses: actions/checkout@v4
+  #       with: 
+  #         path: DL4MicEverywhere-album
+  #     - name: Clone DL4MicEverywhere repository
+  #       uses: actions/checkout@v4
+  #       with:
+  #         repository: HenriquesLab/DL4MicEverywhere
+  #         path: DL4MicEverywhere
+  #     # Set up Python for its use
+  #     - uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.9'
+  #         # cache: 'pip' # caching pip dependencies
 
-      # First udpate the solution.py file
-      - name: Install requirements
-        working-directory: ./DL4MicEverywhere-album
-        run: pip install -r .tools/requirements.txt
-      - name: Update the version of the notebook on the configuration
-        id: export_solution
-        working-directory: ./DL4MicEverywhere-album
-        run: |
-          export SOLUTION_VERSION=$(python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}')
-          echo "solution_version=$SOLUTION_VERSION" >> $GITHUB_OUTPUT
-      - name: Get solution name for artifact
-        id: solution_name
-        run: |
-          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
-          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
-      - name: Upload modified solution
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
-          path: './DL4MicEverywhere-album/src/${{ inputs.config_file }}/solution.py'
+  #     # First udpate the solution.py file
+  #     - name: Install requirements
+  #       working-directory: ./DL4MicEverywhere-album
+  #       run: pip install -r .tools/requirements.txt
+  #     - name: Update the version of the notebook on the configuration
+  #       id: export_solution
+  #       working-directory: ./DL4MicEverywhere-album
+  #       run: |
+  #         export SOLUTION_VERSION=$(python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}')
+  #         echo "solution_version=$SOLUTION_VERSION" >> $GITHUB_OUTPUT
+  #     - name: Get solution name for artifact
+  #       id: solution_name
+  #       run: |
+  #         export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
+  #         echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
+  #     - name: Upload modified solution
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
+  #         path: './DL4MicEverywhere-album/src/${{ inputs.config_file }}/solution.py'
 
-  build_amd64:
-    name: Install album solution on AMD64
-    runs-on: [self-hosted, dl4miceverywhere-builder]
-    needs: convert_solution
+  # build_amd64:
+  #   name: Install album solution on AMD64
+  #   runs-on: [self-hosted, dl4miceverywhere-builder]
+  #   needs: convert_solution
 
-    # Conda needs to use login mode
-    defaults:
-      run:
-        shell: bash -l {0}
+  #   # Conda needs to use login mode
+  #   defaults:
+  #     run:
+  #       shell: bash -l {0}
 
-    steps:
-      - name: Clone actual DL4MicEverywhere-album repository
-        uses: actions/checkout@v4
-      - name: Set up album's Miniconda environment
-        uses: conda-incubator/setup-miniconda@v3
-        with:          
-          miniforge-version: latest
-          use-mamba: true
-          auto-update-conda: false
-          auto-activate-base: false 
-          python-version: 3.12 # Python version needs to be between 3.7 and 3.12
-          activate-environment: album
-          environment-file: .tools/actions_utils/album_enviornment.yml 
-          condarc-file: .tools/actions_utils/album_condarc.yml # Optional runtime configuration
-          run-post: true # Run post cleanup step
-      - run: |
-          conda info
-          conda list
-      - name: Get solution name for artifact
-        id: solution_name
-        run: |
-          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
-          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
-      - name: Download modified solution from previous step
-        uses: actions/download-artifact@v4
-        with:
-          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
-          path: temp
-      # To be safe, remove any possible solution with the same
-      - name: Uninstall the solution to be safe
-        run: album uninstall 'temp/solution.py'
-        continue-on-error: true
-      - name: Test the installation of certain solution
-        run: album install 'temp/solution.py'
+  #   steps:
+  #     - name: Clone actual DL4MicEverywhere-album repository
+  #       uses: actions/checkout@v4
+  #     - name: Set up album's Miniconda environment
+  #       uses: conda-incubator/setup-miniconda@v3
+  #       with:          
+  #         miniforge-version: latest
+  #         use-mamba: true
+  #         auto-update-conda: false
+  #         auto-activate-base: false 
+  #         python-version: 3.12 # Python version needs to be between 3.7 and 3.12
+  #         activate-environment: album
+  #         environment-file: .tools/actions_utils/album_enviornment.yml 
+  #         condarc-file: .tools/actions_utils/album_condarc.yml # Optional runtime configuration
+  #         run-post: true # Run post cleanup step
+  #     - run: |
+  #         conda info
+  #         conda list
+  #     - name: Get solution name for artifact
+  #       id: solution_name
+  #       run: |
+  #         export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
+  #         echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
+  #     - name: Download modified solution from previous step
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
+  #         path: temp
+  #     # To be safe, remove any possible solution with the same
+  #     - name: Uninstall the solution to be safe
+  #       run: album uninstall 'temp/solution.py'
+  #       continue-on-error: true
+  #     - name: Test the installation of certain solution
+  #       run: album install 'temp/solution.py'
 
-  build_arm64:
-    name: Install album solution on ARM64
-    runs-on: [self-hosted, macOS, ARM64]
-    needs: convert_solution
+  # build_arm64:
+  #   name: Install album solution on ARM64
+  #   runs-on: [self-hosted, macOS, ARM64]
+  #   needs: convert_solution
 
-    # Conda needs to use login mode
-    defaults:
-      run:
-        shell: bash -l {0}
+  #   # Conda needs to use login mode
+  #   defaults:
+  #     run:
+  #       shell: bash -l {0}
     
-    steps:
-      - name: Clone actual DL4MicEverywhere-album repository
-        uses: actions/checkout@v4
-      - name: Set up album's Miniconda environment
-        uses: conda-incubator/setup-miniconda@v3
-        with:          
-          miniforge-version: latest
-          use-mamba: true
-          auto-update-conda: false
-          auto-activate-base: false 
-          python-version: 3.12 # Python version needs to be between 3.7 and 3.12
-          activate-environment: album
-          environment-file: .tools/actions_utils/album_enviornment.yml 
-          condarc-file: .tools/actions_utils/album_condarc.yml # Optional runtime configuration
-          run-post: true # Run post cleanup step
-      - run: |
-          conda info
-          conda list
-      - name: Get solution name for artifact
-        id: solution_name
-        run: |
-          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
-          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
-      - name: Download modified solution from previous step
-        uses: actions/download-artifact@v4
-        with:
-          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
-          path: temp    
-      # To be safe, remove any possible solution with the same
-      - name: Uninstall the solution to be safe
-        run: album uninstall 'temp/solution.py'
-        continue-on-error: true
-      - name: Test the installation of certain solution
-        run: album install 'temp/solution.py'
+  #   steps:
+  #     - name: Clone actual DL4MicEverywhere-album repository
+  #       uses: actions/checkout@v4
+  #     - name: Set up album's Miniconda environment
+  #       uses: conda-incubator/setup-miniconda@v3
+  #       with:          
+  #         miniforge-version: latest
+  #         use-mamba: true
+  #         auto-update-conda: false
+  #         auto-activate-base: false 
+  #         python-version: 3.12 # Python version needs to be between 3.7 and 3.12
+  #         activate-environment: album
+  #         environment-file: .tools/actions_utils/album_enviornment.yml 
+  #         condarc-file: .tools/actions_utils/album_condarc.yml # Optional runtime configuration
+  #         run-post: true # Run post cleanup step
+  #     - run: |
+  #         conda info
+  #         conda list
+  #     - name: Get solution name for artifact
+  #       id: solution_name
+  #       run: |
+  #         export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
+  #         echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
+  #     - name: Download modified solution from previous step
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
+  #         path: temp    
+  #     # To be safe, remove any possible solution with the same
+  #     - name: Uninstall the solution to be safe
+  #       run: album uninstall 'temp/solution.py'
+  #       continue-on-error: true
+  #     - name: Test the installation of certain solution
+  #       run: album install 'temp/solution.py'
 
   save_building:
     name: Update the solution source and log the result
     runs-on: [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() }}
-    needs:
-      - build_arm64
-      - build_amd64
-      - convert_solution
+    # needs:
+    #   - build_arm64
+    #   - build_amd64
+    #   - convert_solution
     permissions:
       contents: write
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
+      - name: Check gh
+        run: gh --version
       - name: Execute and retry updating the information
         uses: nick-fields/retry@v3
         with:
           retry_wait_seconds: 30
           timeout_minutes: 3
           max_attempts: 3
-          command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=${{ needs.convert_solution.outputs.solution_version }} -f build_amd64_result=${{ contains(needs.build_amd64.result, 'success') }} -f build_arm64_result=${{ contains(needs.build_arm64.result, 'success') }}
+          # command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=${{ needs.convert_solution.outputs.solution_version }} -f build_amd64_result=${{ contains(needs.build_amd64.result, 'success') }} -f build_arm64_result=${{ contains(needs.build_arm64.result, 'success') }}
+          command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=1.1.0 -f build_amd64_result=true -f build_arm64_result=true
