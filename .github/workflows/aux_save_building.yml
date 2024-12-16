@@ -1,7 +1,7 @@
 name: (Aux) Update the solution source and log the result
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       config_file: 
         required: true
