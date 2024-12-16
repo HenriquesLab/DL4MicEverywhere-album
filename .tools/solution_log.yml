@@ -54,6 +54,10 @@ ZeroCostDL4Mic_notebooks/Detectron2_2D_DL4Mic:
   1.15.1:
     amd64: true
     arm64: false
+ZeroCostDL4Mic_notebooks/Diffusion_SMLM_DL4Mic:
+  '1.12':
+    amd64: false
+    arm64: false
 ZeroCostDL4Mic_notebooks/MaskRCNN_DL4Mic:
   1.14.2:
     amd64: true
