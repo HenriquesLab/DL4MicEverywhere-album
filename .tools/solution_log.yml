@@ -90,6 +90,10 @@ ZeroCostDL4Mic_notebooks/StarDist_2D_DL4Mic:
   1.20.2:
     amd64: true
     arm64: true
+ZeroCostDL4Mic_notebooks/StarDist_3D_DL4Mic:
+  1.15.3:
+    amd64: true
+    arm64: false
 ZeroCostDL4Mic_notebooks/fnet_2D_DL4Mic:
   1.14.1:
     amd64: false

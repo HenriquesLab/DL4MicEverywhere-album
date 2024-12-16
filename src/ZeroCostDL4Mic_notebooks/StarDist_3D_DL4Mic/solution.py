@@ -152,7 +152,7 @@ setup(
     title="stardist-3d-zerocostdl4mic implementation.",
     description="3D instance segmentation of oval objects (ie nuclei). StarDist is a deep-learning method that can be used to segment cell nuclei in 3D (xyz) images. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'StarDist', 'segmentation', 'ZeroCostDL4Mic', '3D', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'StarDist', 'segmentation', 'ZeroCostDL4Mic', '3D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
