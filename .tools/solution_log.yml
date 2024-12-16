@@ -26,6 +26,10 @@ ZeroCostDL4Mic_notebooks/CARE_3D_DL4Mic:
   1.15.3:
     amd64: true
     arm64: false
+ZeroCostDL4Mic_notebooks/Cellpose_2D_DL4Mic:
+  1.16.3:
+    amd64: true
+    arm64: false
 ZeroCostDL4Mic_notebooks/MaskRCNN_DL4Mic:
   1.14.2:
     amd64: true
