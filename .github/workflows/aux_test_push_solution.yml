@@ -151,7 +151,7 @@ jobs:
     #   - build_arm64
     #   - build_amd64
     #   - convert_solution
-    permissions: read-all
+    permissions: write-all
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
