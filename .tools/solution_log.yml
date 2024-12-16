@@ -14,3 +14,7 @@ ZeroCostDL4Mic_notebooks/MaskRCNN_DL4Mic:
   1.14.2:
     amd64: true
     arm64: false
+ZeroCostDL4Mic_notebooks/Noise2Void_2D_DL4Mic:
+  1.16.2:
+    amd64: true
+    arm64: false
