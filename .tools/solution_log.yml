@@ -90,3 +90,7 @@ ZeroCostDL4Mic_notebooks/fnet_3D_DL4Mic:
   1.13.1:
     amd64: false
     arm64: false
+ZeroCostDL4Mic_notebooks/pix2pix_DL4Mic:
+  1.17.3:
+    amd64: true
+    arm64: false
