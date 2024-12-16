@@ -145,7 +145,7 @@ setup(
     title="dfcan-zerocostdl4mic implementation.",
     description="Super-resolution via super-pixelisation. Deep Fourier channel attention network (DFCAN) is a network created to transform low-resolution (LR) images to super-resolved (SR) images, published by Qiao, Chang and Li, Di and Guo, Yuting and Liu, Chong and Jiang, Tao and Dai, Qionghai and Li, Dong. The training is done using LR-SR image pairs, taking the LR images as input and obtaining an output as close to SR as posible.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'DFCAN', 'Super Resolution', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'DFCAN', 'Super Resolution', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",

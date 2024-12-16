@@ -34,6 +34,10 @@ ZeroCostDL4Mic_notebooks/CycleGAN_DL4Mic:
   1.13.3:
     amd64: true
     arm64: false
+ZeroCostDL4Mic_notebooks/DFCAN_DL4Mic:
+  1.14.1:
+    amd64: true
+    arm64: false
 ZeroCostDL4Mic_notebooks/DecoNoising_2D_DL4Mic:
   1.14.1:
     amd64: true
