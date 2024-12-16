@@ -34,7 +34,6 @@ def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
         notebook_name = notebook_name.lower().replace(".ipynb", "").replace("_", "-")
         solution_path = os.path.join(dl4miceverywhere_album_solution_path, notebook_name, 'solution.yml')
 
-
         # Read the information from the solution
         with open(solution_path, 'r', encoding='utf8') as f:
             solution_data = yaml.safe_load(f)
@@ -43,7 +42,20 @@ def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
 
         # Check if they have the same version
         if config_version != solution_version:
-            updated_notebooks.append(notebook)
+            # Check if this solutions has already been tested and if so, don't put it
+            # This will avoid the cases that cannot be built to be in loop
+
+            # Read the log file
+            with open(os.path.join(dl4miceverywhere_path, '.tools', 'solution_log.yml'), 'r', encoding='utf8') as f:
+                solution_log = yaml.safe_load(f)
+
+            if notebook not in solution_log.keys():
+                updated_notebooks.append(notebook)
+            else:
+                # We are looking the version on DL4MicEverywhere's config because its 
+                # the one with the latest version and that needs to be tested
+                if config_version not in solution_log[notebook].keys():
+                    updated_notebooks.append(notebook)
 
     if len(updated_notebooks) == 0:
         print('')

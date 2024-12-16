@@ -103,6 +103,7 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
     ## Needs to be the last one to avoid conflicts with PYTHON_VERSION, CUDATOOLKIT_VERSION and CUDNN_VERSION
     solution_file_text = solution_file_text.replace("VERSION", str(version))
     print(str(version))
+    
     # Create the album folder
     repository_folder_path = os.sep.join(os.path.dirname(os.path.abspath(__file__)).split(os.sep)[:-2])
     album_folder_path = os.path.join(repository_folder_path, "src", notebook_folder)

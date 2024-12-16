@@ -39,8 +39,9 @@ jobs:
       - name: Update the version of the notebook on the configuration
         id: export_solution
         working-directory: ./DL4MicEverywhere-album
-        run: export SOLUTION_VERSION=$(python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}')
-             echo "solution_version=$SOLUTION_VERSION" >> $GITHUB_OUTPUT
+        run: |
+          export SOLUTION_VERSION=$(python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}')
+          echo "solution_version=$SOLUTION_VERSION" >> $GITHUB_OUTPUT
       - name: Upload modified solution
         uses: actions/upload-artifact@v4
         with:
