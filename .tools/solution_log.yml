@@ -110,6 +110,10 @@ ZeroCostDL4Mic_notebooks/WGAN_DL4Mic:
   1.15.1:
     amd64: true
     arm64: false
+ZeroCostDL4Mic_notebooks/YOLOv2_DL4Mic:
+  '1.13':
+    amd64: false
+    arm64: false
 ZeroCostDL4Mic_notebooks/fnet_2D_DL4Mic:
   1.14.1:
     amd64: false
