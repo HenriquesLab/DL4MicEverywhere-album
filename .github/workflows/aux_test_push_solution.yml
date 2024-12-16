@@ -143,11 +143,10 @@ jobs:
       - name: Test the installation of certain solution
         run: album install 'temp/solution.py'
 
-  save_failure_building:
+  save_building:
     name: Update the solution source and log the result
     runs-on: [self-hosted, dl4miceverywhere-builder]
-    if: ${{ always() && ( contains(needs.build_arm64.result, 'failure') && contains(needs.build_amd64.result, 'failure') ) }}
-
+    if: ${{ always() }}
     needs:
       - build_arm64
       - build_amd64
@@ -155,93 +154,15 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Sleep for 30 seconds
-        run: sleep 30
-      - name: Clone actual DL4MicEverywhere-album repository
-        uses: actions/checkout@v4
-      - name: Allow fast-forward on git pull
-        run: git config --global pull.ff true 
-      - name: Execute and retry git pull
-        uses: nick-fields/retry@v3
+      - name: Execute and retry updating the information
+        id: my-action
+        uses: Wandalen/wretry.action@master
         with:
-          timeout_minutes: 3
-          max_attempts: 3
-          command: git pull --allow-unrelated-histories 
-          new_command_on_retry: git reset --hard HEAD  
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-          # cache: 'pip' # caching pip dependencies
-      - name: Install the requirements on Python
-        run: pip install -r .tools/requirements.txt
-      # In this case, the solution will not be copied to the repository
-      - name: Update solution log
-        run: |
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} arm64 false
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} amd64 false
-      - name: Commit updated solution
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: GitHub Action - Update the notebook version on the configuration
-
-  save_success_building:
-    name: Update the solution source and log the result
-    runs-on: [self-hosted, dl4miceverywhere-builder]
-    if: ${{ always() && ( contains(needs.build_arm64.result, 'success') || contains(needs.build_amd64.result, 'success') ) }}
-    needs:
-      - build_arm64
-      - build_amd64
-      - convert_solution
-    permissions:
-      contents: write
-    steps:
-      - name: Sleep for 30 seconds
-        run: sleep 30
-      - name: Clone actual DL4MicEverywhere-album repository
-        uses: actions/checkout@v4
-      - name: Allow fast-forward on git pull
-        run: git config --global pull.ff true 
-      - name: Execute and retry git pull
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 3
-          max_attempts: 3
-          command: git pull --allow-unrelated-histories 
-      - name: Install Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.9'
-          # cache: 'pip' # caching pip dependencies
-      - name: Install the requirements on Python
-        run: pip install -r .tools/requirements.txt
-      - name: Get solution name for artifact
-        id: solution_name
-        run: |
-          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
-          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
-      - name: Download modified solution from previous step
-        uses: actions/download-artifact@v4
-        with:
-          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
-          path: ../temp
-      - name: Copy the updated solution
-        run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
-      - name: Add building tags to the solution
-        run: |
-          python .tools/python_tools/add_build_tag_to_solution.py -p './src/${{ inputs.config_file }}/solution.py' -d ${{ contains(needs.build_amd64.result, 'success') }} -r ${{ contains(needs.build_arm64.result, 'success') }}
-      - name: Update solution log
-        run: |
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
-      - name: Commit updated solution
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: GitHub Action - Update the notebook version on the configuration
-      # This is done to avoid two steps running at the same time:
-      # deploying ablum soultion  and pulling/pushing the src/solution
-      - name: Save the artifact as successful solution
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'success_${{ steps.solution_name.outputs.solution_name }}'
-          path: './src/${{ inputs.config_file }}/solution.py'
+          attempt_delay: 3
+          attempt_limit: 3
+          action: ./.github/workflows/aux_save_building.yml
+          with: |
+            config_file: ${{ inputs.config_file }}
+            solution_version: ${{ needs.convert_solution.outputs.solution_version }} 
+            build_amd64_result: ${{ contains(needs.build_amd64.result, 'success') }} 
+            build_arm64_result: ${{ contains(needs.build_arm64.result, 'success') }}
