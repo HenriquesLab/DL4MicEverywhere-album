@@ -145,7 +145,7 @@ jobs:
 
   save_building:
     name: Update the solution source and log the result
-    runs-on: [self-hosted, dl4miceverywhere-builder]
+    runs-on: ubuntu-latest # [self-hosted, dl4miceverywhere-builder]
     if: ${{ always() }}
     # needs:
     #   - build_arm64
@@ -156,8 +156,6 @@ jobs:
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
-      - name: Setup gh
-        uses: wusatosi/setup-gh@v1.1
       - name: Check gh
         run: gh --version
       - name: Execute and retry updating the information
