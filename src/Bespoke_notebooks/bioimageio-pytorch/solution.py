@@ -133,12 +133,12 @@ dependencies:
 setup(
     group="DL4MicEverywhere",
     name="load-bioimageio-pytorch-bespoke",
-    version="1.5.0",
+    version="1.6.0",
     solution_creators=["DL4MicEverywhere team", "album team"],
     title="load-bioimageio-pytorch-bespoke implementation.",
     description="Notebook to load models from the BioImage Model Zoo in PyTorch",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'general-notebook', 'pytorch', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['ARM64', 'AMD64', 'colab', 'notebook', 'general-notebook', 'pytorch', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",

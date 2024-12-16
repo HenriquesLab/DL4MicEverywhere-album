@@ -1,3 +1,7 @@
+Bespoke_notebooks/bioimageio-pytorch:
+  1.6.0:
+    amd64: true
+    arm64: true
 Diffusion_SMLM_DL4Mic:
   '1.12':
     amd64: false
