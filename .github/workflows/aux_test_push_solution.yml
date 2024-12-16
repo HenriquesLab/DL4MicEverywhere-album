@@ -6,15 +6,16 @@ on:
       config_file: # the variable you can use in place of a matrix
         required: true
         type: string
-
 env:
   # Use the same ssh-agent socket value across all jobs
   SSH_AUTH_SOCK: /tmp/ssh_agent.sock
   
 jobs:
-  get_arguments:
+  convert_solution:
     name: Extract arguments from configuration
     runs-on: [self-hosted, dl4miceverywhere-builder]
+    outputs:
+      solution_version: ${{ steps.export_solution.outputs.solution_version }}
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
@@ -36,8 +37,10 @@ jobs:
         working-directory: ./DL4MicEverywhere-album
         run: pip install -r .tools/requirements.txt
       - name: Update the version of the notebook on the configuration
+        id: export_solution
         working-directory: ./DL4MicEverywhere-album
-        run: python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}'
+        run: export SOLUTION_VERSION=$(python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}')
+             echo "solution_version=$SOLUTION_VERSION" >> $GITHUB_OUTPUT
       - name: Upload modified solution
         uses: actions/upload-artifact@v4
         with:
@@ -47,7 +50,7 @@ jobs:
   build_amd64:
     name: Install album solution on AMD64
     runs-on: [self-hosted, dl4miceverywhere-builder]
-    needs: get_arguments
+    needs: convert_solution
 
     # Conda needs to use login mode
     defaults:
@@ -87,7 +90,7 @@ jobs:
   build_arm64:
     name: Install album solution on ARM64
     runs-on: [self-hosted, macOS, ARM64]
-    needs: get_arguments
+    needs: convert_solution
 
     # Conda needs to use login mode
     defaults:
@@ -132,6 +135,7 @@ jobs:
     needs:
       - build_arm64
       - build_amd64
+      - convert_solution
     permissions:
       contents: write
     steps:
@@ -158,8 +162,8 @@ jobs:
       # In this case, the solution will not be copied to the repository
       - name: Update solution log
         run: |
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} arm64 false
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} amd64 false
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} arm64 false
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} amd64 false
       - name: Commit updated solution
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -172,6 +176,7 @@ jobs:
     needs:
       - build_arm64
       - build_amd64
+      - convert_solution
     permissions:
       contents: write
     steps:
@@ -206,8 +211,8 @@ jobs:
           python .tools/python_tools/add_build_tag_to_solution.py -p './src/${{ inputs.config_file }}/solution.py' -d ${{ contains(needs.build_amd64.result, 'success') }} -r ${{ contains(needs.build_arm64.result, 'success') }}
       - name: Update solution log
         run: |
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
-          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} arm64 ${{ contains(needs.build_arm64.result, 'success') }}
+          python .tools/python_tools/save_solution_log.py ${{ inputs.config_file }} ${{ needs.convert_solution.outputs.solution_version }} amd64 ${{ contains(needs.build_amd64.result, 'success') }}
       - name: Commit updated solution
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
