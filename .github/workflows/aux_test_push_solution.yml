@@ -157,7 +157,7 @@ jobs:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
       - name: Set up gh commands
-        uses: actions4gh/setup-gh@v1
+        uses: actions4gh/setup-gh@v1.0.2
       - name: Check gh
         run: gh --version
       - name: Execute and retry updating the information
