@@ -156,10 +156,10 @@ jobs:
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
-      - name: Set up gh commands
-        uses: actions4gh/setup-gh@v1.0.2
       - name: Check gh
         run: gh --version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Execute and retry updating the information
         uses: nick-fields/retry@v3
         with:
@@ -168,3 +168,5 @@ jobs:
           max_attempts: 3
           # command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=${{ needs.convert_solution.outputs.solution_version }} -f build_amd64_result=${{ contains(needs.build_amd64.result, 'success') }} -f build_arm64_result=${{ contains(needs.build_arm64.result, 'success') }}
           command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=1.1.0 -f build_amd64_result=true -f build_arm64_result=true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
