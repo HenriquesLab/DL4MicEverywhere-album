@@ -6,11 +6,19 @@ import re
 
 def convert_config_to_solution(config_path):
     # Use regular expressions tu extract the base path and the notebook folder
-    DL4MicEverywhere_path, notebook_folder = re.findall(r"(.*).notebooks.ZeroCostDL4Mic_notebooks.(.*).configuration.yaml", config_path)[0]
-    convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, notebook_folder=notebook_folder)
+    DL4MicEverywhere_path, notebook_type, notebook_folder = re.findall(r"(.*).notebooks.(.*).(.*).configuration.yaml", config_path)[0]
+    convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, notebook_type=notebook_type, notebook_folder=notebook_folder)
 
 def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
-    config_path = os.path.join(DL4MicEverywhere_path, "notebooks", "ZeroCostDL4Mic_notebooks", notebook_folder, "configuration.yaml") 
+    notebook_folder_path = os.path.join(DL4MicEverywhere_path, "notebooks")
+    for notebook_type in os.listdir(notebook_folder_path):
+        if notebook_folder in os.listdir(os.path.join(notebook_folder_path, notebook_type)):
+            convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, 
+                                    notebook_type=notebook_type, 
+                                    notebook_folder=notebook_folder)
+
+def convert_config_to_solution(DL4MicEverywhere_path, notebook_type, notebook_folder):
+    config_path = os.path.join(DL4MicEverywhere_path, "notebooks", notebook_type, notebook_folder, "configuration.yaml") 
     
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"The configuration file {config_path} does not exist.")
@@ -25,10 +33,10 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
     notebook_url = config_data["config"]["dl4miceverywhere"]["notebook_url"]
     notebook_name = os.path.basename(notebook_url)
     sections_to_remove = config_data["config"]["dl4miceverywhere"]["sections_to_remove"]
-    version = config_data["version"]
-    tags = config_data["tags"]
-    cite = config_data["cite"]
-    description = config_data["description"]
+    version = config_data["config"]["dl4miceverywhere"]["notebook_version"]
+    tags = config_data["tags"] if "tags" in config_data.keys() else "[]"
+    cite = config_data["cite"] if "cite" in config_data.keys() else ""
+    description = config_data["description"] if "description" in config_data.keys() else ""
     python_version = config_data["config"]["dl4miceverywhere"]["python_version"]
     cuda_toolkit_version = config_data["config"]["dl4miceverywhere"]["cuda_version"]
     cudnn_version = config_data["config"]["dl4miceverywhere"]["cudnn_version"]
@@ -40,6 +48,11 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
 
     # Others need to be created
     name = notebook_name.lower().replace(".ipynb", "").replace("_", "-")
+    # Add the notebook type to the name
+    notebook_type_name = notebook_type.lower().replace("_notebooks", "")
+    if notebook_type_name not in name:
+        name += f"-{notebook_type_name}"
+
     title = f"{name} implementation."
 
     # And finally, the requirements file needs to downloaded and processed
@@ -108,7 +121,7 @@ def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
 
     # Create the album folder
     repository_folder_path = os.sep.join(os.path.dirname(os.path.abspath(__file__)).split(os.sep)[:-2])
-    album_folder_path = os.path.join(repository_folder_path, "src", notebook_folder)
+    album_folder_path = os.path.join(repository_folder_path, "src", notebook_type, notebook_folder)
     
     # print(album_folder_path)
     
@@ -123,11 +136,15 @@ def main(dl4miceverywhere_path=None):
     if dl4miceverywhere_path is None:
         dl4miceverywhere_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', '..', '..', 'DL4MicEverywhere'))
 
-    notebook_path = os.path.join(dl4miceverywhere_path, "notebooks", "ZeroCostDL4Mic_notebooks")
+    notebook_base_path = os.path.join(dl4miceverywhere_path, "notebooks")
     
-    for notebook_folder in os.listdir(notebook_path):
-        if os.path.isdir(os.path.join(notebook_path, notebook_folder)):
-            convert_config_to_solution(DL4MicEverywhere_path=dl4miceverywhere_path, notebook_folder=notebook_folder)
+    for notebook_type in os.listdir(notebook_base_path):
+        notebook_type_path = os.path.join(notebook_base_path, notebook_type)
+        if os.path.isdir(notebook_type_path):
+            for notebook_folder in os.listdir(notebook_type_path):
+                notebook_folder_path = os.path.join(notebook_type_path, notebook_folder)
+                if os.path.isdir(notebook_folder_path):
+                    convert_config_to_solution(DL4MicEverywhere_path=dl4miceverywhere_path, notebook_type=notebook_type, notebook_folder=notebook_folder)
 
 if __name__ == "__main__":
     if len(sys.argv) <= 1:
@@ -140,5 +157,8 @@ if __name__ == "__main__":
     elif len(sys.argv) == 3:
         # DL4MicEverywhere path and notebook_folder name are provided
         sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_folder=sys.argv[2]))
+    elif len(sys.argv) == 4:
+        # DL4MicEverywhere path, notebook type (zerocost, bespoke or external) and notebook_folder name are provided
+        sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_path=sys.argv[2], notebook_folder=sys.argv[3]))
     else:
         sys.exit(1)
