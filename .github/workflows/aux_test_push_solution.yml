@@ -153,6 +153,8 @@ jobs:
     #   - convert_solution
     permissions:
       contents: write
+      actions: read
+      checks: write
     steps:
       - name: Clone actual DL4MicEverywhere-album repository
         uses: actions/checkout@v4
