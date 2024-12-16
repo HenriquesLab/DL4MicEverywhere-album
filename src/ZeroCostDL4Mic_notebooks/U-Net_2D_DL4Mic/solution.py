@@ -153,7 +153,7 @@ setup(
     title="u-net-2d-zerocostdl4mic implementation.",
     description="2D binary segmentation. U-Net is an encoder-decoder architecture originally used for image segmentation. The first half of the U-Net architecture is a downsampling convolutional neural network which acts as a feature extractor from input images. The other half upsamples these results and restores an image by combining results from downsampling with the upsampled images. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'U-Net', 'segmentation', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'U-Net', 'segmentation', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
