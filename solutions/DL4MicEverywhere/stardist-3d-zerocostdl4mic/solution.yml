@@ -1,0 +1,37 @@
+album_api_version: 0.5.1
+args:
+- default: .
+  description: What is your working path?
+  name: path
+  type: string
+changelog: null
+cite:
+- doi: https://doi.org/10.1038/s41467-021-22518-0
+  text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
+    for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0
+- text: "Martin Weigert, Uwe Schmidt, Robert Haase, Ko Sugawara, Gene Myers. Star-convex\
+    \ Polyhedra for 3D Object Detection and Segmentation in Microscopy. \tarXiv. https://arxiv.org/abs/1908.03636"
+  url: https://arxiv.org/abs/1908.03636
+covers: []
+description: 3D instance segmentation of oval objects (ie nuclei). StarDist is a deep-learning
+  method that can be used to segment cell nuclei in 3D (xyz) images. Note - visit
+  the ZeroCostDL4Mic wiki to check the original publications this network is based
+  on and make sure you cite these.
+documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md
+group: DL4MicEverywhere
+name: stardist-3d-zerocostdl4mic
+solution_creators:
+- DL4MicEverywhere team
+- album team
+tags:
+- AMD64
+- colab
+- notebook
+- StarDist
+- segmentation
+- ZeroCostDL4Mic
+- 3D
+- dl4miceverywhere
+timestamp: '2024-12-16T21:44:33.280546'
+title: stardist-3d-zerocostdl4mic implementation.
+version: 1.15.3
