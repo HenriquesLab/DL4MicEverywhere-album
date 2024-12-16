@@ -136,12 +136,12 @@ dependencies:
 setup(
     group="DL4MicEverywhere",
     name="maskrcnn-zerocostdl4mic",
-    version="1.14.1",
+    version="1.14.2",
     solution_creators=["DL4MicEverywhere team", "album team"],
     title="maskrcnn-zerocostdl4mic implementation.",
     description="Instance segmentation of 2D images. MaskRCNN is a is an object detection and segmentation network, which identifies objects in images and draws bounding boxes around them.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'MaskRCNN', 'object detection', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'MaskRCNN', 'object detection', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
