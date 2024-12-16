@@ -148,7 +148,7 @@ setup(
     title="wgan-zerocostdl4mic implementation.",
     description="Super-resolution via super-pixelisation. Wasserstein GAN (DFCAN) is a network created to transform low-resolution (LR) images to super-resolved (SR) images, published by Gulrajani I. et al. arXiv 2017. The training is done using LR-SR image pairs, taking the LR images as input and obtaining an output as close to SR as posible.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['colab', 'notebook', 'WGAN', 'Super Resolution', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
+    tags=['AMD64', 'colab', 'notebook', 'WGAN', 'Super Resolution', 'ZeroCostDL4Mic', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",

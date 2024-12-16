@@ -106,6 +106,10 @@ ZeroCostDL4Mic_notebooks/U-Net_3D_DL4Mic:
   2.2.1:
     amd64: true
     arm64: false
+ZeroCostDL4Mic_notebooks/WGAN_DL4Mic:
+  1.15.1:
+    amd64: true
+    arm64: false
 ZeroCostDL4Mic_notebooks/fnet_2D_DL4Mic:
   1.14.1:
     amd64: false
