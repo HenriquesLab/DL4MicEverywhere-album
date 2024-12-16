@@ -4,7 +4,7 @@ args:
   description: What is your working path?
   name: path
   type: string
-changelog: null
+changelog: ../CHANGELOG.md
 cite:
 - doi: https://doi.org/10.1038/s41467-021-22518-0
   text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
@@ -24,11 +24,18 @@ documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/mas
 group: DL4MicEverywhere
 name: u-net-2d-multilabel-zerocostdl4mic
 solution_creators:
-- DL4MicEverywhere team
+- DL4Mic team
 - album team
 tags:
-- ARM64
-- AMD64
-timestamp: '2024-11-16T14:42:05.093725'
+- colab
+- notebook
+- u-net
+- segmentation
+- semantic-segmentation
+- multilabel
+- ZeroCostDL4Mic
+- 2D
+- dl4miceverywhere
+timestamp: '2024-10-15T17:50:33.770193'
 title: u-net-2d-multilabel-zerocostdl4mic implementation.
-version: 2.1.4
+version: 2.1.2

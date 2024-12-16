@@ -22,9 +22,9 @@ def install():
 
     # Clone the DL4MicEverywhere repository
     clone_url = "https://github.com/HenriquesLab/DL4MicEverywhere"
-    repository_path = get_app_path().joinpath("DL4MicEverywhere")
-    Repo.clone_from(clone_url, repository_path)
-    assert (repository_path.exists())
+    repo_path = get_app_path().joinpath("DL4MicEverywhere")
+    Repo.clone_from(clone_url, repo_path)
+    assert (repo_path.exists())
 
     # URL of the notebook you want to download
     notebook_url = "https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/Colab_notebooks/U-Net_2D_Multilabel_ZeroCostDL4Mic.ipynb"
@@ -47,7 +47,7 @@ def install():
     python_command = ["python", ".tools/notebook_autoconversion/transform.py", "-p", f"{get_app_path()}", "-n", "U-Net_2D_Multilabel_ZeroCostDL4Mic.ipynb", "-s"]
     python_command += section_to_remove
 
-    subprocess.run(python_command, cwd=repository_path)
+    subprocess.run(python_command, cwd=to)
     subprocess.run(["mv", get_app_path().joinpath("colabless_U-Net_2D_Multilabel_ZeroCostDL4Mic.ipynb"), get_app_path().joinpath("U-Net_2D_Multilabel_ZeroCostDL4Mic.ipynb")])
 
     # Remove the cloned DL4MicEverywhere repository
@@ -55,7 +55,7 @@ def install():
         os.system(f'rmdir /s /q "{to}"')
     else:
         # rmtree has no permission to do this on Windows
-        shutil.rmtree(repository_path) 
+        shutil.rmtree(to) 
 
 def run():
     from album.runner.api import get_args, get_app_path
@@ -95,7 +95,7 @@ if gpu_access:
     dependencies = """
 - python=3.10
 - cudatoolkit=11.8.0
-- cudnn=8.9.2
+- cudnn=8.6.0
 - pip
 - pkg-config
 """
@@ -118,41 +118,40 @@ dependencies:
 - pip:
     - GitPython==3.1.43 
     - PTable==0.9.2
-    - Pillow==10.4.0
-    - bioimageio.core==0.6.10
+    - Pillow==8.4.0
+    - bioimageio.core==0.5.9
     - data==0.4
-    - fpdf2==2.7.9
-    - future==1.0.0
+    - fpdf2==2.7.4
+    - future==0.18.3
+    - google==2.0.3
     - h5py==3.10.0
     - ipywidgets==8.0.7
     - matplotlib==3.7.1
-    - numexpr==2.10.1
-    - numpy==1.26.4
-    - pandas==2.1.4
+    - numexpr==2.8.4
+    - numpy==1.22.4
+    - pandas==1.5.3
     - pathlib==1.0.1
-    - pip==24.1.2
-    - requests==2.32.3
-    - scikit-image==0.24.0
-    - scikit-learn==1.5.2
-    - scipy==1.13.1
-    - tensorflow==2.15.0
-    - tifffile==2024.9.20
-    - tqdm==4.66.5
+    - pip==23.1.2
+    - requests==2.27.1
+    - scikit-image==0.19.3
+    - scikit-learn==1.2.2
+    - scipy==1.10.1
+    - tensorflow==2.12.0
+    - tifffile==2023.7.4
+    - tqdm==4.65.0
     - wget==3.2
-    - zarr==2.18.3
-    - nbformat==5.9.2
-    - jupyterlab==3.4.0
+    - zarr==2.15.0
 """
 
 setup(
     group="DL4MicEverywhere",
     name="u-net-2d-multilabel-zerocostdl4mic",
-    version="2.1.4",
-    solution_creators=["DL4MicEverywhere team", "album team"],
+    version="2.1.2",
+    solution_creators=["DL4Mic team", "album team"],
     title="u-net-2d-multilabel-zerocostdl4mic implementation.",
     description="2D semantic segmentation. U-Net is an encoder-decoder architecture originally used for image segmentation. The first half of the U-Net architecture is a downsampling convolutional neural network which acts as a feature extractor from input images. The other half upsamples these results and restores an image by combining results from downsampling with the upsampled images. Note - visit the ZeroCostDL4Mic wiki to check the original publications this network is based on and make sure you cite these.",
     documentation="https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md",
-    tags=['ARM64', 'AMD64'],
+    tags=['colab', 'notebook', 'u-net', 'segmentation', 'semantic-segmentation', 'multilabel', 'ZeroCostDL4Mic', '2D', 'dl4miceverywhere'],
     args=[{
         "name": "path",
         "type": "string",
