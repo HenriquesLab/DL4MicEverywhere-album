@@ -166,3 +166,5 @@ jobs:
           max_attempts: 3
           # command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=${{ needs.convert_solution.outputs.solution_version }} -f build_amd64_result=${{ contains(needs.build_amd64.result, 'success') }} -f build_arm64_result=${{ contains(needs.build_arm64.result, 'success') }}
           command: gh workflow run ./.github/workflows/aux_save_building.yml -f config_file=${{ inputs.config_file }} -f solution_version=1.1.0 -f build_amd64_result=true -f build_arm64_result=true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
