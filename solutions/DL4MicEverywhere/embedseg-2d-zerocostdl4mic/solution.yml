@@ -1,0 +1,35 @@
+album_api_version: 0.5.1
+args:
+- default: .
+  description: What is your working path?
+  name: path
+  type: string
+changelog: null
+cite:
+- doi: https://doi.org/10.1038/s41467-021-22518-0
+  text: von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning
+    for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). https://doi.org/10.1038/s41467-021-22518-0
+- text: Manan Lalit, Pavel Tomancak, Florian Jug. Embedding-based Instance Segmentation
+    in Microscopy. arXiv:2101.10033.
+  url: https://arxiv.org/abs/2101.10033
+covers: []
+description: Instance segmentation of 2D images. EmbedSeg 2D is a deep-learning method
+  that can be used to segment object from bioimages and was first published by Lalit
+  et al. in 2021, on arXiv.
+documentation: https://raw.githubusercontent.com/HenriquesLab/ZeroCostDL4Mic/master/BioimageModelZoo/README.md
+group: DL4MicEverywhere
+name: embedseg-2d-zerocostdl4mic
+solution_creators:
+- DL4MicEverywhere team
+- album team
+tags:
+- AMD64
+- colab
+- notebook
+- EmbedSeg
+- Segmentation
+- ZeroCostDL4Mic
+- dl4miceverywhere
+timestamp: '2024-12-16T21:32:41.065015'
+title: embedseg-2d-zerocostdl4mic implementation.
+version: 1.15.0
