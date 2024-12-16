@@ -42,10 +42,15 @@ jobs:
         run: |
           export SOLUTION_VERSION=$(python3 .tools/python_tools/convert_config_to_solution.py '../DL4MicEverywhere' '${{ inputs.config_file }}')
           echo "solution_version=$SOLUTION_VERSION" >> $GITHUB_OUTPUT
+      - name: Get solution name for artifact
+        id: solution_name
+        run: |
+          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
+          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
       - name: Upload modified solution
         uses: actions/upload-artifact@v4
         with:
-          name: 'solution_${{ inputs.config_file }}'
+          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
           path: './DL4MicEverywhere-album/src/${{ inputs.config_file }}/solution.py'
 
   build_amd64:
@@ -76,10 +81,15 @@ jobs:
       - run: |
           conda info
           conda list
+      - name: Get solution name for artifact
+        id: solution_name
+        run: |
+          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
+          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
-          name: 'solution_${{ inputs.config_file }}'
+          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
           path: temp
       # To be safe, remove any possible solution with the same
       - name: Uninstall the solution to be safe
@@ -116,10 +126,15 @@ jobs:
       - run: |
           conda info
           conda list
+      - name: Get solution name for artifact
+        id: solution_name
+        run: |
+          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
+          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
-          name: 'solution_${{ inputs.config_file }}'
+          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
           path: temp    
       # To be safe, remove any possible solution with the same
       - name: Uninstall the solution to be safe
@@ -200,10 +215,15 @@ jobs:
           # cache: 'pip' # caching pip dependencies
       - name: Install the requirements on Python
         run: pip install -r .tools/requirements.txt
+      - name: Get solution name for artifact
+        id: solution_name
+        run: |
+          export INPUT_CONFIG_NAME='${{ inputs.config_file }}'  
+          echo solution_name="${INPUT_CONFIG_NAME/\//-}" >> $GITHUB_OUTPUT
       - name: Download modified solution from previous step
         uses: actions/download-artifact@v4
         with:
-          name: 'solution_${{ inputs.config_file }}'
+          name: 'solution_${{ steps.solution_name.outputs.solution_name }}'
           path: ../temp
       - name: Copy the updated solution
         run: cp '../temp/solution.py' './src/${{ inputs.config_file }}/solution.py'
@@ -223,5 +243,5 @@ jobs:
       - name: Save the artifact as successful solution
         uses: actions/upload-artifact@v4
         with:
-          name: 'success_${{ inputs.config_file }}'
+          name: 'success_${{ steps.solution_name.outputs.solution_name }}'
           path: './src/${{ inputs.config_file }}/solution.py'

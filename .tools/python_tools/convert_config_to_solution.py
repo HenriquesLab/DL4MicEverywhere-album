@@ -6,18 +6,15 @@ import re
 
 def convert_config_to_solution(config_path):
     # Use regular expressions tu extract the base path and the notebook folder
-    DL4MicEverywhere_path, notebook_type, notebook_folder = re.findall(r"(.*).notebooks.(.*).(.*).configuration.yaml", config_path)[0]
-    convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, notebook_type=notebook_type, notebook_folder=notebook_folder)
+    DL4MicEverywhere_path, notebook_folder = re.findall(r"(.*).notebooks.(.*).configuration.yaml", config_path)[0]
+    convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, notebook_folder=notebook_folder)
 
-def convert_config_to_solution(DL4MicEverywhere_path, notebook_folder):
-    notebook_folder_path = os.path.join(DL4MicEverywhere_path, "notebooks")
-    for notebook_type in os.listdir(notebook_folder_path):
-        if notebook_folder in os.listdir(os.path.join(notebook_folder_path, notebook_type)):
-            convert_config_to_solution(DL4MicEverywhere_path=DL4MicEverywhere_path, 
-                                    notebook_type=notebook_type, 
-                                    notebook_folder=notebook_folder)
+def convert_config_to_solution(DL4MicEverywhere_path, notebook_both_folders):
 
-def convert_config_to_solution(DL4MicEverywhere_path, notebook_type, notebook_folder):
+    # The input of notebook_both_folders has been changed to NotebookType/NotebookName format
+    # For example: ZeroCostDL4Mic_notebooks/3D-RCAN_DL4Mic
+    notebook_type, notebook_folder = notebook_both_folders.split('/')
+
     config_path = os.path.join(DL4MicEverywhere_path, "notebooks", notebook_type, notebook_folder, "configuration.yaml") 
     
     if not os.path.exists(config_path):
@@ -157,8 +154,5 @@ if __name__ == "__main__":
     elif len(sys.argv) == 3:
         # DL4MicEverywhere path and notebook_folder name are provided
         sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_folder=sys.argv[2]))
-    elif len(sys.argv) == 4:
-        # DL4MicEverywhere path, notebook type (zerocost, bespoke or external) and notebook_folder name are provided
-        sys.exit(convert_config_to_solution(DL4MicEverywhere_path=sys.argv[1], notebook_path=sys.argv[2], notebook_folder=sys.argv[3]))
     else:
         sys.exit(1)

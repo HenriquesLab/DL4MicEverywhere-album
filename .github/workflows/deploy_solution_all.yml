@@ -15,7 +15,7 @@ jobs:
       - name: Get the list of all the notebooks
         id: all_notebooks
         run: |
-          output=$(for dir in $(ls -d ./src/*); do basename $dir; done | tr "\n" " ")
+          output=$(for dir in $(ls -d ./src/*/*); do echo "${dir#./src/}"; done); done | tr "\n" " ")
           echo "$output"
           echo "value=${output}" >> $GITHUB_OUTPUT
       - if: ${{ steps.all_notebooks.outputs.value != '' }}

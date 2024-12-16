@@ -13,56 +13,69 @@ def main(dl4miceverywhere_path=None, dl4miceverywhere_album_path=None):
     # List that will store the notebooks with the new version.
     updated_notebooks = []
 
-    # Go through all the notebooks and check if the version is the same
-    dl4miceverywhere_notebooks_path = os.path.join(dl4miceverywhere_path, 'notebooks', 'ZeroCostDL4Mic_notebooks') # TODO: add all the types of notebooks
-    dl4miceverywhere_album_solution_path = os.path.join(dl4miceverywhere_album_path, 'solutions', 'DL4MicEverywhere') # TODO: add all the types of notebooks
+    dl4miceverywhere_notebooks_base_path = os.path.join(dl4miceverywhere_path, 'notebooks')
+    dl4miceverywhere_notebooks_type_list = [e for e in sorted(os.listdir(dl4miceverywhere_notebooks_base_path)) if os.path.isdir(os.path.join(dl4miceverywhere_notebooks_base_path, e))]
 
-    dl4miceverywhere_notebooks_list = [e for e in sorted(os.listdir(dl4miceverywhere_notebooks_path)) if os.path.isdir(os.path.join(dl4miceverywhere_notebooks_path, e))]
+    for notebook_type in os.listdir(dl4miceverywhere_notebooks_type_list):
 
-    for notebook in dl4miceverywhere_notebooks_list:
-        # First, get the version from DL4MicEverywhere's configuration
-        configuration_path = os.path.join(dl4miceverywhere_notebooks_path, notebook, 'configuration.yaml')
+        # Go through all the notebooks and check if he version is the same
+        dl4miceverywhere_notebooks_path = os.path.join(dl4miceverywhere_path, 'notebooks', notebook_type) 
+        dl4miceverywhere_album_solution_path = os.path.join(dl4miceverywhere_album_path, 'solutions', 'DL4MicEverywhere')
 
-        # Read the information from the configuration
-        with open(configuration_path, 'r', encoding='utf8') as f:
-            config_data = yaml.safe_load(f)
-        
-        config_version = config_data['config']['dl4miceverywhere']['notebook_version']
+        dl4miceverywhere_notebooks_list = [e for e in sorted(os.listdir(dl4miceverywhere_notebooks_path)) if os.path.isdir(os.path.join(dl4miceverywhere_notebooks_path, e))]
 
-        # Then, get the version from the DL4MicEverywhere-album's solution
-        notebook_name = os.path.basename(config_data['config']['dl4miceverywhere']['notebook_url'])
-        notebook_name = notebook_name.lower().replace(".ipynb", "").replace("_", "-")
-        solution_path = os.path.join(dl4miceverywhere_album_solution_path, notebook_name, 'solution.yml')
+        for notebook in dl4miceverywhere_notebooks_list:
+            # First, get the version from DL4MicEverywhere's configuration
+            configuration_path = os.path.join(dl4miceverywhere_notebooks_path, notebook, 'configuration.yaml')
 
-        # Read the information from the solution
-        with open(solution_path, 'r', encoding='utf8') as f:
-            solution_data = yaml.safe_load(f)
-        
-        solution_version = solution_data['version']
-        
-        # Check if they have the same version
-        if config_version != solution_version:
-            # Check if this solutions has already been tested and if so, don't put it
-            # This will avoid the cases that cannot be built to be in loop
+            # Read the information from the configurationt
+            with open(configuration_path, 'r', encoding='utf8') as f:
+                config_data = yaml.safe_load(f)
+            
+            config_version = config_data['config']['dl4miceverywhere']['notebook_version']
 
-            solution_log_path = os.path.join(dl4miceverywhere_album_path, '.tools', 'solution_log.yml')
+            # Then, get the version from the DL4MicEverywhere-album's solution
+            notebook_name = os.path.basename(config_data['config']['dl4miceverywhere']['notebook_url'])
+            notebook_name = notebook_name.lower().replace(".ipynb", "").replace("_", "-")
 
-            if os.path.exists(solution_log_path):
-                # Read the log file
-                with open(solution_log_path, 'r', encoding='utf8') as f:
-                    solution_log = yaml.safe_load(f)
+            # Add the notebook type to the name
+            notebook_type_name = notebook_type.lower().replace("_notebooks", "")
+            if notebook_type_name not in notebook_name:
+                notebook_name += f"-{notebook_type_name}"
 
-                if notebook in solution_log.keys():
-                    # We are checking the version on DL4MicEverywhere's config (config_version) 
-                    # because its the one with the latest version and that needs to be tested
-                    if str(config_version) not in solution_log[notebook].keys():
-                        updated_notebooks.append(notebook)
+            solution_path = os.path.join(dl4miceverywhere_album_solution_path, notebook_name, 'solution.yml')
+
+            # Read the information from the solution
+            with open(solution_path, 'r', encoding='utf8') as f:
+                solution_data = yaml.safe_load(f)
+            
+            # Get the actual version of the solution 
+            solution_version = solution_data['version']
+            
+            # Get the name that will be passed to the GitHub action
+            update_notebook_name = f"{notebook_type}/{notebook}"
+
+            # Check if they have the same version
+            if config_version != solution_version:
+                # Check if this solutions has already been tested and if so, don't put it
+                # This will avoid the cases that cannot be built to be in loop
+
+                solution_log_path = os.path.join(dl4miceverywhere_album_path, '.tools', 'solution_log.yml')
+
+                if os.path.exists(solution_log_path):
+                    # Read the log file
+                    with open(solution_log_path, 'r', encoding='utf8') as f:
+                        solution_log = yaml.safe_load(f)
+
+                    if update_notebook_name in solution_log.keys():
+                        # We are checking the version on DL4MicEverywhere's config (config_version) 
+                        # because its the one with the latest version and that needs to be tested
+                        if str(config_version) not in solution_log[update_notebook_name].keys():
+                            updated_notebooks.append(update_notebook_name)
+                    else:
+                        updated_notebooks.append(update_notebook_name)
                 else:
-                    updated_notebooks.append(notebook)
-            else:
-                updated_notebooks.append(notebook)
-
-            break
+                    updated_notebooks.append(update_notebook_name)
 
     if len(updated_notebooks) == 0:
         print('')

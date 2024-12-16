@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       config_file_list: # the variable you can use in place of a matrix
-        description: 'List of folders names from DL4MicEverywhere, they need to be separated by spaces. eg. "CARE_2D_DL4Mic DFCAN_DL4Mic pix2pix_DL4Mic"'
+        description: 'List of folders and subfolder names from DL4MicEverywhere, they need to be separated by spaces. eg. "ZeroCostDL4Mic_notebooks/CARE_2D_DL4Mic External_notebooks/FRUNet-Exosomes Bespoke_notebooks/bioimageio-tensorflow"'
         type: string
 
 jobs:
